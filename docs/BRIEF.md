@@ -1,0 +1,1 @@
+Paste the full master brief here, replacing [PROJECT_NAME] with NIB.

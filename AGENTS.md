@@ -1,0 +1,2 @@
+Read docs/BRIEF.md in full before doing anything. It contains the hackathon rules, rubric, deliverables and creative constraints. Do not invent rules, assets or features that are not in it.
+Project name: NIB. Track 2 (original character). No Pip assets. Do not copy the haX.baby cream and berry look.
