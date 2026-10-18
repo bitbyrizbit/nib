@@ -88,6 +88,17 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
   ctx.rotate(b.angle.x);
   ctx.scale(S * b.sx.x, S * b.sy.x);
 
+  if (!night) {
+    ctx.save();
+    ctx.translate(2.6 + Math.max(0, -b.hop.x) * 0.02, 3.8 + Math.max(0, -b.hop.x) * 0.03);
+    ctx.fillStyle = "rgba(0,0,0,0.16)";
+    ctx.beginPath();
+    BODY.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
   ctx.beginPath();
   BODY.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
   ctx.closePath();
@@ -95,12 +106,22 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
     ctx.shadowColor = "#ffb347";
     ctx.shadowBlur = 14;
   }
-  ctx.fillStyle = fill;
+  const grad = ctx.createLinearGradient(0, 0, 21, 31);
+  grad.addColorStop(0, night ? "#ffd98a" : "#ffe680");
+  grad.addColorStop(0.55, "#ffd23f");
+  grad.addColorStop(1, "#f2a900");
+  ctx.fillStyle = grad;
   ctx.fill();
   ctx.shadowBlur = 0;
   ctx.strokeStyle = line;
   ctx.lineWidth = 1.5;
   ctx.stroke();
+
+  // Specular highlight
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.beginPath();
+  ctx.ellipse(2.2, 7.5, 0.8, 3.4, -0.25, 0, Math.PI * 2);
+  ctx.fill();
 
   const m = b.mood;
   ctx.fillStyle = "rgba(232,65,47,0.55)";
