@@ -71,8 +71,31 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
 
 /* Story */
 .story { height: calc(5 * 90dvh); }
-.story__stage { position: sticky; top: 0; height: calc(100dvh - var(--taskbar-h)); display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s5); align-items: center; }
-.story__art { width: 100%; height: auto; max-height: 400px; background: var(--plastic); border: 2px solid var(--line); box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 6px 6px 0 var(--shadow-c); }
+.story__stage {
+  position: sticky;
+  top: 0;
+  height: calc(100dvh - var(--taskbar-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s3);
+}
+.story__route-wrap {
+  width: 100%;
+}
+.route {
+  width: 100%;
+  height: 50px;
+  overflow: visible;
+}
+.story__content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--s5);
+  align-items: center;
+  width: 100%;
+}
+.story__art { width: 100%; height: auto; max-height: 380px; background: var(--plastic); border: 2px solid var(--line); box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 6px 6px 0 var(--shadow-c); }
 .story__list { list-style: none; margin: 0; padding: 0; }
 .story__scene { display: none; }
 .story__scene[data-active="true"] { display: block; }
@@ -277,10 +300,60 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
 .projects-col--right {
   margin-top: 48px;
 }
+.projects-col--wide {
+  grid-column: 1 / -1;
+  margin-top: var(--s3);
+}
+
+/* Nibble Box */
+.nibble-box-content { display: grid; gap: var(--s3); }
+.box-desc { font-size: 16px; color: var(--text-soft); margin: 0; }
+.box { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); }
+.box__col {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s2);
+  border: 2px solid var(--line);
+  background: var(--plastic-hi);
+  box-shadow: inset -1px -1px 0 var(--plastic-lo), inset 1px 1px 0 #fff;
+  transition: background 0.1s;
+}
+.box__col[data-active="true"] { background: var(--nib); }
+.box__hex { font-family: var(--font-mono); font-size: 18px; font-weight: bold; text-align: center; color: var(--text); }
+.box__pad {
+  min-height: 52px;
+  min-width: 44px;
+  border: 2px solid var(--line);
+  background: var(--plastic);
+  box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 #fff;
+  cursor: pointer;
+  transition: transform 0.05s, background 0.1s;
+}
+.box__pad:active { box-shadow: inset 2px 2px 0 var(--plastic-lo); }
+.box__pad[aria-pressed="true"] {
+  background: var(--signal);
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.3);
+}
+.box__code { font-family: var(--font-mono); font-size: 18px; font-weight: bold; color: var(--signal); margin: 0; }
+.box__controls { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.box__tempo {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  background: var(--plastic);
+  border: 2px solid var(--line);
+  padding: 4px 8px;
+}
+.box__tempo input[type="range"] { width: 90px; }
+.box__footer { display: flex; justify-content: flex-end; border-top: 1px dashed var(--line); padding-top: var(--s2); }
+.stamp { font-family: var(--font-mono); font-size: 14px; color: var(--text-soft); }
 
 @media (max-width: 900px) {
   .projects-cluster { grid-template-columns: 1fr; }
   .projects-col--right { margin-top: 0; }
+  .projects-col--wide { margin-top: 0; }
 }
 
 @media (max-width: 640px) {
@@ -298,8 +371,9 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
 }
 
 @media (max-width: 800px) {
-  .story__stage { grid-template-columns: 1fr; align-content: center; }
+  .story__content { grid-template-columns: 1fr; align-content: center; gap: var(--s3); }
   .story__art { max-height: 220px; }
+  .route { height: 35px; }
 }
 
 /* About / Character Sheet */
@@ -380,10 +454,74 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   margin-bottom: var(--s1);
 }
 
+/* Easter Egg Modal */
+.egg {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: 440px;
+  width: calc(100% - var(--s5));
+  background: var(--plastic);
+  border: 2px solid var(--line);
+  box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 8px 8px 0 var(--shadow-c);
+  padding: var(--s5);
+  overflow: hidden;
+  z-index: 2000;
+}
+.egg::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+.egg__rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.egg__rain span {
+  position: absolute;
+  top: -1.5em;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--phosphor);
+  animation: fall 3s linear forwards;
+}
+@keyframes fall {
+  to {
+    transform: translateY(450px);
+    opacity: 0;
+  }
+}
+.egg__content { position: relative; z-index: 2; display: grid; gap: var(--s3); }
+.egg__title { font-size: 26px; color: var(--signal); margin: 0; }
+.egg__body p { margin: 0 0 var(--s2); font-size: 18px; }
+.egg__signature { font-family: var(--font-mono); font-weight: bold; }
+.egg__close { justify-self: start; margin-top: var(--s2); }
+
+/* NIB Voice Bubble */
+.voice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  pointer-events: none;
+  max-width: 220px;
+  padding: 4px 10px;
+  background: var(--plastic-hi);
+  color: #1c1b18;
+  border: 2px solid var(--line);
+  box-shadow: 3px 3px 0 var(--shadow-c);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .story { height: auto !important; }
   .story__stage { position: static !important; height: auto !important; display: block !important; }
+  .story__route-wrap { display: none !important; }
   .story__art { margin-bottom: var(--s4); }
   .story__scene { display: block !important; margin-bottom: var(--s5); }
   .story__dots { display: none !important; }
