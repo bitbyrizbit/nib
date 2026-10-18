@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { playLullaby, stopAll } from "@/lib/audio";
+import Modal from "./Modal";
 
 export default function EggModal({
   open,
@@ -11,41 +12,33 @@ export default function EggModal({
   onClose: () => void;
   found?: number | null;
 }) {
-  const ref = useRef<HTMLDialogElement>(null);
   const [bits, setBits] = useState<{ ch: string; left: number; delay: number }[]>([]);
 
   useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    if (open && !d.open) {
-      d.showModal();
+    if (open) {
       playLullaby();
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        requestAnimationFrame(() => {
-          setBits(
-            Array.from({ length: 28 }, () => ({
-              ch: Math.random() < 0.5 ? "0" : "1",
-              left: Math.random() * 100,
-              delay: Math.random() * 2.5,
-            }))
-          );
-        });
+        setBits(
+          Array.from({ length: 28 }, () => ({
+            ch: Math.random() < 0.5 ? "0" : "1",
+            left: Math.random() * 100,
+            delay: Math.random() * 2.5,
+          }))
+        );
       }
+    } else {
+      setBits([]);
     }
-    if (!open && d.open) d.close();
   }, [open]);
 
+  const handleClose = () => {
+    stopAll();
+    setBits([]);
+    onClose();
+  };
+
   return (
-    <dialog
-      ref={ref}
-      className="egg"
-      aria-labelledby="egg-title"
-      onClose={() => {
-        stopAll();
-        setBits([]);
-        onClose();
-      }}
-    >
+    <Modal open={open} onClose={handleClose} labelledBy="egg-title" className="egg">
       <div className="egg__rain" aria-hidden="true">
         {bits.map((b, i) => (
           <span key={i} style={{ left: `${b.left}%`, animationDelay: `${b.delay}s` }}>
@@ -65,10 +58,10 @@ export default function EggModal({
             <p className="hint egg__found">you are one of {found} visitors who found this.</p>
           )}
         </div>
-        <button type="button" className="tb-btn egg__close" autoFocus onClick={() => ref.current?.close()}>
+        <button type="button" className="tb-btn egg__close" autoFocus onClick={handleClose}>
           close
         </button>
       </div>
-    </dialog>
+    </Modal>
   );
 }

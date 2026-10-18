@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { playDialup, stopAll, isMuted } from "@/lib/audio";
 import { nib } from "@/components/nib/nibBus";
+import Modal from "@/components/ui/Modal";
 
 type DialState = "idle" | "dialing" | "handshake" | "checking" | "connected";
 
@@ -13,7 +14,6 @@ export default function DialDialog({
   open: boolean;
   onClose: () => void;
 }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const [stage, setStage] = useState<DialState>("idle");
   const [progress, setProgress] = useState(0);
   const [resultText, setResultText] = useState("");
@@ -36,13 +36,8 @@ export default function DialDialog({
   };
 
   useEffect(() => {
-    const d = dialogRef.current;
-    if (!d) return;
-
-    if (open && !d.open) {
-      d.showModal();
+    if (open) {
       clearTimers();
-
       const muted = isMuted();
       if (!muted) {
         playDialup();
@@ -99,20 +94,14 @@ export default function DialDialog({
       }, 4300);
 
       timersRef.current.push(t1, t2);
-    }
-
-    if (!open && d.open) {
-      d.close();
+    } else {
+      clearTimers();
+      stopAll();
     }
   }, [open]);
 
   return (
-    <dialog
-      ref={dialogRef}
-      className="dial-dialog"
-      aria-labelledby="dial-title"
-      onClose={handleClose}
-    >
+    <Modal open={open} onClose={handleClose} labelledBy="dial-title" className="dial-dialog">
       <div className="dial-header">
         <h2 id="dial-title" className="dial-title">
           dial_up.exe
@@ -120,7 +109,7 @@ export default function DialDialog({
         <button
           type="button"
           className="dial-close-x"
-          onClick={() => dialogRef.current?.close()}
+          onClick={handleClose}
           aria-label="Close"
         >
           ×
@@ -131,7 +120,7 @@ export default function DialDialog({
         <div className="dial-screen">
           <span className="dial-label">Modem: 56k V.90 / 28.8k baud</span>
           <progress className="dial-progress" max={100} value={progress} />
-          
+
           <div className="dial-status-box" role="status">
             {stage === "dialing" && <p className="dial-line">dialing 555-1234...</p>}
             {stage === "handshake" && <p className="dial-line">negotiating handshake...</p>}
@@ -153,12 +142,12 @@ export default function DialDialog({
             type="button"
             className="tb-btn dial-btn"
             autoFocus
-            onClick={() => dialogRef.current?.close()}
+            onClick={handleClose}
           >
             {stage === "connected" ? "hang up" : "cancel"}
           </button>
         </div>
       </div>
-    </dialog>
+    </Modal>
   );
 }

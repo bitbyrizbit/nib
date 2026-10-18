@@ -707,23 +707,39 @@ html:not([data-fx="off"]) .window.js-reveal[data-in="true"] {
   color: var(--signal);
 }
 
-/* Easter Egg Modal */
-.egg {
+/* Custom Portal Modal (Phase 10.1: keeps modals below NIB canvas z-index 9999) */
+.modal-backdrop {
   position: fixed;
   inset: 0;
-  margin: auto;
+  z-index: 9300;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+.modal {
+  position: relative;
+  width: min(92vw, 520px);
+  max-height: 90dvh;
+  overflow: auto;
+  background: var(--plastic);
+  color: var(--text);
+  border: 2px solid var(--line);
+  box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 6px 6px 0 var(--shadow-c);
+  padding: var(--s5);
+}
+
+/* Easter Egg Modal */
+.egg {
+  position: relative;
   max-width: 440px;
-  width: calc(100% - var(--s5));
+  width: 100%;
   background: var(--plastic);
   border: 2px solid var(--line);
   box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 8px 8px 0 var(--shadow-c);
   padding: var(--s5);
   overflow: hidden;
-  z-index: 2000;
-}
-.egg::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(2px);
 }
 .egg__rain {
   position: absolute;
@@ -751,23 +767,16 @@ html:not([data-fx="off"]) .window.js-reveal[data-in="true"] {
 .egg__signature { font-family: var(--font-mono); font-weight: bold; }
 .egg__close { justify-self: start; margin-top: var(--s2); }
 
-/* Dial-Up Modem Dialog (Phase 6.2) */
+/* Dial-Up Modem Dialog (Phase 6.2 & 10.1) */
 .dial-dialog {
-  position: fixed;
-  inset: 0;
-  margin: auto;
+  position: relative;
   max-width: 400px;
-  width: calc(100% - var(--s5));
+  width: 100%;
   background: var(--plastic);
   border: 2px solid var(--line);
   box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 8px 8px 0 var(--shadow-c);
   padding: 0;
   overflow: hidden;
-  z-index: 2000;
-}
-.dial-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(2px);
 }
 .dial-header {
   background: var(--title-bg);
