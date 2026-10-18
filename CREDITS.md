@@ -1,20 +1,25 @@
-# Credits
+# Credits & Attributions
 
-Every font, sound, library and piece of art used on the site is listed here and in the site footer.
+Every font, library, sound generator, and asset used in NIB is fully open source and attributed below.
 
 ## Fonts
-- **Bagel Fat One**: SIL Open Font License, designed by JAMO, served via `next/font/google`.
-- **Pixelify Sans**: SIL Open Font License, designed by Stefie Justprince, served via `next/font/google`.
-- **VT323**: SIL Open Font License, designed by Peter Hull, served via `next/font/google`.
+- **[Bagel Fat One](https://fonts.google.com/specimen/Bagel+Fat+One)**: SIL Open Font License 1.1, designed by JAMO, served via `next/font/google`.
+- **[Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans)**: SIL Open Font License 1.1, designed by Stefie Justprince, served via `next/font/google`.
+- **[VT323](https://fonts.google.com/specimen/VT323)**: SIL Open Font License 1.1, designed by Peter Hull, served via `next/font/google`.
 
-## Art & Character Design
-- All character art, animations, icons, and illustrations are 100% original, created in code using SVG, CSS, and HTML5 Canvas.
-- No third-party imagery, Pip assets, or borrowed IP.
+## Framework & Dependencies
+- **[Next.js](https://nextjs.org/)** (v16.4.2): MIT License
+- **[React](https://react.dev/)** (v19): MIT License
+- **[@upstash/redis](https://github.com/upstash/upstash-redis)**: MIT License
+- **[@upstash/ratelimit](https://github.com/upstash/ratelimit)**: MIT License
+- **[obscenity](https://github.com/jo3-l/obscenity)**: MIT License
 
-## Audio
-- Synthesised dynamically in the browser using the Web Audio API. Zero external audio samples, zero royalty issues.
+## Character Design & Art
+- **NIB Character & Assets**: 100% original artwork designed from scratch in code using SVG, CSS, and HTML5 Canvas.
+- No third-party images, Pip assets, or haX.baby assets were used. All animations, icons, badges, and story scenes are handcrafted code.
 
-## Libraries & Stack
-- **Next.js** (App Router) & **React** (MIT License)
-- **TypeScript** (Apache-2.0 License)
-- **Vanilla CSS** with CSS Custom Properties (zero UI kits, zero animation frameworks)
+## Audio Engine
+- **Web Audio API**: 100% synthesised in-browser using procedural oscillators, envelopes, and biquad filters. Zero audio files, samples, or external media recordings.
+
+## AI Disclosure
+- Built with assistance from AI coding tools (Claude / Gemini), with all architecture, code, design, and logic reviewed, verified, and owned by the creator.

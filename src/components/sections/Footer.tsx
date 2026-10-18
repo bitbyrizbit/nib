@@ -37,10 +37,10 @@ export default function Footer() {
         <div className="footer-credits">
           <h3>Credits &amp; Open Source</h3>
           <ul>
-            <li><strong>Fonts:</strong> Bagel Fat One, Pixelify Sans, VT323 (SIL Open Font License, via Google Fonts).</li>
-            <li><strong>Framework:</strong> Next.js &amp; React with TypeScript and vanilla CSS.</li>
+            <li><strong>Fonts:</strong> Bagel Fat One, Pixelify Sans, VT323 (SIL Open Font License).</li>
+            <li><strong>Stack:</strong> Next.js, React, @upstash/redis, @upstash/ratelimit, obscenity (all MIT).</li>
             <li><strong>Artwork:</strong> 100% original, generated via code (SVG, canvas, CSS). No third-party or Pip assets.</li>
-            <li><strong>Audio (Phase 3):</strong> Synthesized in-browser with Web Audio API. Zero audio files or external samples.</li>
+            <li><strong>Audio:</strong> Synthesized in-browser with Web Audio API. Zero audio files or external samples.</li>
             <li><strong>Source code:</strong> <a href="https://github.com/bitbyrizbit/nib" target="_blank" rel="noopener noreferrer">github.com/bitbyrizbit/nib</a></li>
           </ul>
         </div>

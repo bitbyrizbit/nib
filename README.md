@@ -2,58 +2,66 @@
 
 > Click gently. I'm new here.
 
-NIB is a baby cursor with a big portfolio, built in 48 hours for the haX.baby **"Baby's First Website"** hackathon (Track 2: Your Own Baby).
+NIB is a baby cursor: a newborn pointer discovering the internet, one click at a time.  
+Built for the **haX.baby "Baby's First Website"** hackathon (Track 2: Your Own Baby).
 
-**Live site:** [https://meet-nib.vercel.app/](https://meet-nib.vercel.app/)
+> *"Build something real, but it has to look like a baby made it. Bright colors, oversized buttons, retro-internet chaos on the outside — solid, working code underneath."*
 
----
-
-## The Concept
-
-**The character is the website.** NIB is a newborn cursor ("4 bits old / a nibble") discovering the internet one click at a time. After getting lost on a 404 error page, NIB gathered up abandoned pieces of the web and built a crooked, cozy 1999-desktop home.
-
-### Character Sheet (Track 2)
-1. **Name:** NIB
-2. **What it is:** A baby cursor. A soft arrow with a lopsided tip, two big eyes and a tail that never sits still. Four bits old. Curious, clumsy, sincere and easily excited.
-3. **What it does:** Makes tiny web toys and tools, and adopts abandoned pieces of the internet.
-4. **Its story:** Born as a nibble in the dark. Learned to click, learned to love links, got lost on a 404, then built a home from what it found.
-5. **Tagline:** *Click gently. I'm new here.*
+**Live Site:** [https://meet-nib.vercel.app/](https://meet-nib.vercel.app/)
 
 ---
 
-## Features
+## Try This (60 Seconds)
 
-- **Living NIB Cursor:** Custom full-screen `<canvas>` engine with spring physics and Verlet-tail mechanics. The tip is locked to the real pointer with 0 lag/smoothing for crisp immediate clicks. Transitions across 8 distinct moods (`idle`, `curious`, `read`, `happy`, `pout`, `grab`, `sleepy`, `asleep`).
-- **Touch & Accessibility Support:** Autonomous wandering mode on touch devices that follows taps; full keyboard `Tab` navigation; complete `prefers-reduced-motion` compliance.
-- **Scroll-Driven Origin Story:** 5-scene origin story with sticky stage, custom SVG illustrations, and an interactive scroll-synced journey route (`StoryRoute`).
-- **Project 1 — The Lost & Found:** 6 adoptable abandoned web artifacts (broken picture, dead link, 800x600 badge, etc.) with stories, heart stamps, adoption counter, and `localStorage` persistence.
-- **Project 2 — Pointer Playground:** 7 interactive pads proving every emotion (draggable stretch slider, sleep countdown pad, text typing pad with native cursor restoration, etc.).
-- **Project 3 — The Nibble Box:** 4-step, 4-bit Web Audio synthesizer and music box. Features pentatonic scale plucks, tempo slider, randomize, and URL shareable patterns (`/#box=XXXX`).
-- **Project 4 — Live Guestbook:** Interactive sticky-note pinboard for NIB with facial reactions, honeypot protection, human fill-timing verification, and profanity filtering.
-- **Real Visitor Odometer:** Retro mechanical rolling counter tracking visitors in real time with 30-minute deduplication.
-- **Web Audio Engine & Global Mute:** Synthesized browser sound effects with a master mute toggle that immediately silences every oscillator, click sound, music box, and Easter egg.
-- **Hidden Easter Egg & Secret Finder Count:** Click the "Hello, my name is NIB" sticker 4 times to unlock NIB's first-ever message with falling bit rain, synthesized lullaby, and live secret-finder count.
-- **Sparkle Bit Trail & Adopt Cosmetics:** Fast cursor movement leaves a trail of binary bits; adopting objects rewards NIB with a tail bow and pink trail.
-- **Daylight & Dial-up Night Themes:** Retro beige plastic vs. glowing phosphor green night mode with zero flash.
+1. **Move your mouse:** That arrow is NIB, and its tip is locked to your real pointer with zero lag or smoothing.
+2. **Hover around:** Hover a link, a text paragraph, then a locked button. NIB reacts with unique facial expressions and posture for each.
+3. **Click anywhere:** Watch the squash, bounce, and lean physics.
+4. **Scroll the story:** Scroll down to watch NIB grow from four blinking binary bits into a full living cursor.
+5. **Explore the projects:**
+   - **Lost & Found:** Adopt 6 abandoned relics of the 90s web.
+   - **Pointer Playground:** Test every mood pad (stretch the slider, wait for a nap, type to NIB).
+   - **Nibble Box:** A 4-step, 4-bit Web Audio synth. Click pads to make a tune and copy a shareable `#box=XXXX` URL.
+   - **Live Guestbook:** Sign the persistent sticky-note wall with an emotion.
+6. **Find the hidden Easter egg:** Click the "Hello, my name is NIB" sticker 4 times rapidly.
+7. **Mobile:** On touch devices, NIB autonomously wanders and walks to wherever you tap.  
+   *(iPhone note: turn off hardware silent switch to hear audio, and tap once to start).*
+
+---
+
+## Character Sheet (Track 2: Original Baby)
+
+- **Name:** NIB
+- **What it is:** A baby cursor. A soft arrow with a lopsided tip, two big eyes, and a tail that never sits still. Four bits old (half a byte / a nibble). Curious, clumsy, sincere, and easily excited.
+- **What it does:** Makes tiny web toys and tools, and adopts abandoned pieces of the internet.
+- **Its story:** Born as a nibble in the dark (`0101`). Learned to click, learned to love links, got lost on a 404, then built a crooked desktop home from what it found.
+- **Tagline:** *Click gently. I'm new here.*
+
+---
+
+## What is Real (Zero Faking)
+
+- **Hand-written Canvas Physics Engine:** Real-time spring physics, Verlet-tail simulation, and mood state machine. Built entirely with vanilla TypeScript and HTML5 Canvas — zero animation frameworks or UI kits.
+- **Web Audio API Synth:** Procedural audio synthesis without any audio files, MP3s, or external sound samples. Features a master mute switch that silences all sources.
+- **Real Upstash Redis Backend:** Live atomic visitor counter, secret-finder milestone tracker, and guestbook wall with rate limiting and profanity protection. Runs in an in-memory fallback demo mode if credentials are unset.
 
 ---
 
 ## How the Backend Works
 
-The backend runs on Next.js Route Handlers with Upstash Redis (REST):
-- **Atomic Counters:** Incrementing visits and secret-finder milestones atomically via Redis `INCR`.
+Next.js Route Handlers powered by Upstash Redis (REST):
+- **Atomic Counters:** Real-time visitor counts and secret-finder milestones incremented atomically via Redis `INCR`.
+- **Visitor Deduplication:** 30-minute unique window tracking via IP hashes.
 - **Abuse & Spam Protection:**
-  - Strict same-origin validation (`sameOrigin`).
-  - Bot trap with hidden honeypot fields and human timing threshold verification (`t >= 2500ms`).
-  - Profanity and slur filtering using the `obscenity` engine.
-  - Strict URL regex blocker to prevent spam links.
-  - IP-hashed sliding window rate limiting via `@upstash/ratelimit`.
-- **Admin Moderation:** Cryptographically timing-safe authenticated route handler to purge abusive posts.
-- **Graceful Demo Fallback:** When credentials are unset, the system runs in an in-memory demo mode clearly marked with *"demo mode, not saved"* badges so the site never crashes.
+  - Same-origin header validation.
+  - Hidden honeypot trap and minimum human typing threshold (`t >= 2500ms`).
+  - Profanity filtering with the `obscenity` engine.
+  - Spam URL detection rejecting external links.
+  - IP sliding-window rate limiting via `@upstash/ratelimit`.
+- **Admin Moderation:** Timing-safe authenticated delete endpoint (`timingSafeEqual`) to prune abusive entries.
 
 ---
 
-## How to Run Locally
+## Run Locally
 
 ```bash
 # Clone the repository
@@ -63,13 +71,14 @@ cd nib
 # Install dependencies
 npm install
 
-# Start the development server
+# Start the dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.  
+*(Optional: copy `.env.example` to `.env.local` to connect your own Upstash database; without it, the app automatically runs in demo mode).*
 
 ---
 
-## Credits
-See [CREDITS.md](CREDITS.md) for full licensing, font attribution, and tech stack details.
+## Credits & License
+See [CREDITS.md](CREDITS.md) for full licensing, open font attributions, and stack details.
