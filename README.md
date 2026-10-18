@@ -5,8 +5,6 @@
 NIB is a baby cursor: a newborn pointer discovering the internet, one click at a time.  
 Built for the **haX.baby "Baby's First Website"** hackathon (Track 2: Your Own Baby).
 
-> *"Build something real, but it has to look like a baby made it. Bright colors, oversized buttons, retro-internet chaos on the outside — solid, working code underneath."*
-
 **Live Site:** [https://meet-nib.vercel.app/](https://meet-nib.vercel.app/)
 
 ---
@@ -76,7 +74,8 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.  
-*(Optional: copy `.env.example` to `.env.local` to connect your own Upstash database; without it, the app automatically runs in demo mode).*
+*(Optional: copy `.env.example` to `.env.local` to connect your own Upstash database; without it, the app automatically runs in demo mode).*  
+*(Note: `scripts/make-og.js` is a build utility that generated the static `public/og.png` social card via sharp).*
 
 ---
 
