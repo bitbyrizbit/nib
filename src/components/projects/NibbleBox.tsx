@@ -117,7 +117,7 @@ export default function NibbleBox() {
   };
 
   return (
-    <Window title="nibble_box.exe" id="nibble-box" className="nibble-box-window">
+    <Window title="nibble_box.exe" id="nibble-box" className="nibble-box-window" tilt>
       <div className="nibble-box-content">
         <p className="box-desc">Four steps. Four bits each. Tap the pads to build a tune, then press play.</p>
         <div className="box" role="group" aria-label="Nibble Box pattern">

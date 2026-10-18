@@ -79,7 +79,7 @@ export default function Playground() {
   };
 
   return (
-    <Window title="playground.exe" id="playground" className="playground-window">
+    <Window title="playground.exe" id="playground" className="playground-window" tilt>
       <div className="playground">
         <header className="pg-header">
           <p className="pg-desc">

@@ -166,7 +166,7 @@ export default function LostFound() {
   };
 
   return (
-    <Window title="lost_and_found.shelf" id="lost-found" className="lost-found-window">
+    <Window title="lost_and_found.shelf" id="lost-found" className="lost-found-window" tilt>
       <div className="lost-found">
         <header className="lost-header">
           <p className="lost-desc">
