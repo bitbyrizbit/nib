@@ -1,49 +1,71 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "./tokens.css";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  max-width: 100vw;
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--wallpaper);
+  background-image: radial-gradient(var(--dither) 1.2px, transparent 1.4px);
+  background-size: 7px 7px;
+  padding-bottom: calc(var(--taskbar-h) + var(--s5));
   overflow-x: hidden;
 }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.05; margin: 0 0 var(--s3); }
+p { margin: 0 0 var(--s3); }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* NIB cursor replacement: only when the class is set by NibLayer (mouse users) */
+html.nib-on, html.nib-on * { cursor: none !important; }
+html.nib-on input, html.nib-on textarea, html.nib-on select, html.nib-on [data-nib="native"],
+html.nib-on input *, html.nib-on textarea * { cursor: auto !important; }
+html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; }
+
+.nib-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+.main { max-width: 1180px; margin: 0 auto; padding: var(--s6) var(--s4); display: grid; gap: var(--s7); }
+
+/* Window */
+.window {
+  background: var(--plastic);
+  border: 2px solid var(--line);
+  box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 6px 6px 0 var(--shadow-c);
 }
+.window__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); background: var(--title-bg); color: var(--title-fg); padding: 4px 6px 4px 10px; }
+.window__title { font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.04em; text-transform: lowercase; }
+.window__btn { width: 28px; height: 28px; display: grid; place-items: center; background: var(--plastic); color: var(--text); border: 2px solid var(--line); box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi); line-height: 1; padding: 0; }
+.window__btn:active { box-shadow: inset 2px 2px 0 var(--plastic-lo); }
+.window__body { padding: var(--s5); }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+/* Taskbar */
+.taskbar { position: fixed; left: 0; right: 0; bottom: 0; height: var(--taskbar-h); z-index: 50; display: flex; align-items: center; gap: var(--s3); padding: 0 var(--s3); background: var(--plastic); border-top: 2px solid var(--line); box-shadow: inset 0 2px 0 var(--plastic-hi); }
+.taskbar__spacer { flex: 1; }
+.tb-btn { min-height: 36px; min-width: 44px; padding: 0 var(--s3); display: inline-flex; align-items: center; gap: var(--s2); background: var(--plastic); border: 2px solid var(--line); box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi); font-family: var(--font-mono); font-size: 20px; text-transform: lowercase; }
+.tb-btn[aria-pressed="true"], .tb-btn[aria-expanded="true"] { box-shadow: inset 2px 2px 0 var(--plastic-lo); background: var(--nib); color: #1c1b18; }
+.tb-led { width: 10px; height: 10px; background: var(--plastic-lo); border: 1px solid var(--line); }
+.tb-btn[aria-pressed="true"] .tb-led { background: var(--phosphor); }
+.tb-clock { font-family: var(--font-mono); font-size: 22px; min-width: 64px; text-align: right; }
+.start-menu { position: fixed; left: var(--s3); bottom: calc(var(--taskbar-h) + 6px); z-index: 60; min-width: 200px; background: var(--plastic); border: 2px solid var(--line); box-shadow: 6px 6px 0 var(--shadow-c); padding: var(--s2); display: grid; }
+.start-menu a { padding: var(--s2) var(--s3); text-decoration: none; font-family: var(--font-mono); font-size: 22px; }
+.start-menu a:hover, .start-menu a:focus-visible { background: var(--title-bg); color: var(--title-fg); }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* Hero */
+.hero { display: grid; gap: var(--s4); }
+.wordmark { font-size: clamp(88px, 22vw, 220px); letter-spacing: -0.02em; line-height: 0.9; margin: 0; position: relative; display: inline-block; }
+.tagline { font-family: var(--font-display); font-size: clamp(24px, 4vw, 40px); margin: 0; }
+.descriptor { color: var(--text-soft); max-width: 46ch; }
+.bits { display: inline-flex; gap: var(--s2); align-items: center; font-family: var(--font-mono); font-size: 20px; }
+.bit { width: 16px; height: 16px; border: 2px solid var(--line); background: var(--plastic-lo); transition: background 0.15s; }
+.bit[data-on="true"] { background: var(--nib); box-shadow: 0 0 0 2px var(--line); }
+.sticker { justify-self: start; transform: rotate(-3deg); background: var(--signal); color: #fff; padding: var(--s2) var(--s4); border: 2px solid var(--line); font-family: var(--font-mono); font-size: 22px; text-transform: none; }
+.hint { font-family: var(--font-mono); font-size: 20px; color: var(--text-soft); }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

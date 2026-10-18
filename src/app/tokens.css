@@ -1,0 +1,41 @@
+:root {
+  --font-display: var(--font-display-next, "Arial Rounded MT Bold", "Arial Black", sans-serif);
+  --font-ui: var(--font-ui-next, Verdana, sans-serif);
+  --font-mono: var(--font-mono-next, "Courier New", monospace);
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+
+  --ink: #1c1b18;
+  --line: #1c1b18;
+  --plastic: #ddd6c1;
+  --plastic-hi: #f6f1e0;
+  --plastic-lo: #a79f86;
+  --wallpaper: #b7cf9b;
+  --dither: rgba(28, 27, 24, 0.14);
+  --signal: #e8412f;
+  --nib: #ffd23f;
+  --phosphor: #1f7a4a;
+  --title-bg: #1c1b18;
+  --title-fg: #ffd23f;
+  --text: #1c1b18;
+  --text-soft: #4a4637;
+  --shadow-c: #1c1b18;
+  --taskbar-h: 48px;
+}
+
+[data-theme="night"] {
+  --ink: #0a0d1c;
+  --line: #7dffb0;
+  --plastic: #1b2036;
+  --plastic-hi: #2c3354;
+  --plastic-lo: #0f1226;
+  --wallpaper: #0a0d1c;
+  --dither: rgba(125, 255, 176, 0.1);
+  --signal: #ff4fa3;
+  --phosphor: #7dffb0;
+  --title-bg: #7dffb0;
+  --title-fg: #0a0d1c;
+  --text: #d7f5e3;
+  --text-soft: #9bb8a8;
+  --shadow-c: #000000;
+}
