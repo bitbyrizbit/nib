@@ -859,7 +859,7 @@ html:not([data-fx="off"]) .window.js-reveal[data-in="true"] {
   font-size: 16px;
 }
 
-/* NIB Voice Bubble */
+/* NIB Voice Bubble (Step 10.3) */
 .voice {
   position: fixed;
   top: 0;
@@ -869,7 +869,7 @@ html:not([data-fx="off"]) .window.js-reveal[data-in="true"] {
   max-width: 220px;
   padding: 4px 10px;
   background: var(--plastic-hi);
-  color: #1c1b18;
+  color: var(--text);
   border: 2px solid var(--line);
   box-shadow: 3px 3px 0 var(--shadow-c);
   font-family: var(--font-mono);
