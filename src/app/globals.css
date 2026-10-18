@@ -1,7 +1,16 @@
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) var(--plastic);
+}
+::selection {
+  background: var(--nib);
+  color: #1c1b18;
+}
 body {
   margin: 0;
   min-height: 100dvh;
@@ -14,6 +23,20 @@ body {
   background-size: 7px 7px;
   padding-bottom: calc(var(--taskbar-h) + var(--s5));
   overflow-x: hidden;
+}
+html:not([data-fx="off"]) body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+[data-theme="night"] body::after {
+  mix-blend-mode: screen;
+  opacity: 0.04;
 }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.05; margin: 0 0 var(--s3); }
 p { margin: 0 0 var(--s3); }

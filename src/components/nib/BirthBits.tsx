@@ -10,10 +10,16 @@ export default function BirthBits() {
     try {
       if (sessionStorage.getItem("nib:born")) return;
     } catch {}
-    setShow(true);
+    let raf = 0;
+    raf = requestAnimationFrame(() => {
+      setShow(true);
+    });
     const hide = () => setShow(false);
     window.addEventListener("nib:hatched", hide, { once: true });
-    return () => window.removeEventListener("nib:hatched", hide);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("nib:hatched", hide);
+    };
   }, []);
 
   if (!show) return null;

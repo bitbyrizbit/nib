@@ -5,6 +5,7 @@ import NibLayer from "@/components/nib/NibLayer";
 import NightLight from "@/components/nib/NightLight";
 import NibVoice from "@/components/nib/NibVoice";
 import SoundEffects from "@/components/shell/SoundEffects";
+import TabPolish from "@/components/shell/TabPolish";
 import "./globals.css";
 
 const display = Bagel_Fat_One({ weight: "400", subsets: ["latin", "latin-ext"], variable: "--font-display-next", display: "swap" });
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NightLight />
         <NibVoice />
         <SoundEffects />
+        <TabPolish />
       </body>
     </html>
   );
