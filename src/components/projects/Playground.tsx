@@ -94,7 +94,7 @@ export default function Playground() {
         <div className="pg-grid">
           {/* Pad 1: Link pad (curious) */}
           <div className="pg-pad pg-pad--link">
-            <span className="pg-label">{"// 01 link pad"}</span>
+            <span className="pg-label">pad 01 · link &amp; curiosity</span>
             <button type="button" className="tb-btn pg-big-btn">
               hover me ▸ click me
             </button>
@@ -103,7 +103,7 @@ export default function Playground() {
 
           {/* Pad 2: Reading pad (read) */}
           <div className="pg-pad pg-pad--reading">
-            <span className="pg-label">{"// 02 reading pad"}</span>
+            <span className="pg-label">pad 02 · reading mode</span>
             <p className="pg-read-text">
               NIB reads slowly. It moves its eyes along every word and squints a bit. It is only four bits old.
             </p>
@@ -112,7 +112,7 @@ export default function Playground() {
 
           {/* Pad 3: No-go pad (pout) */}
           <div className="pg-pad pg-pad--disabled">
-            <span className="pg-label">{"// 03 no-go pad"}</span>
+            <span className="pg-label">pad 03 · blocked button</span>
             <button disabled type="button" className="tb-btn pg-locked-btn" aria-disabled="true">
               🔒 access denied
             </button>
@@ -121,7 +121,7 @@ export default function Playground() {
 
           {/* Pad 4: Stretch pad (grab) */}
           <div className="pg-pad pg-pad--stretch">
-            <span className="pg-label">{"// 04 stretch pad (drag)"}</span>
+            <span className="pg-label">pad 04 · stretch &amp; drag</span>
             <div className="slider-container">
               <span className="slider-val">0x{sliderVal.toString(16).toUpperCase()} ({sliderVal})</span>
               <div
@@ -155,7 +155,7 @@ export default function Playground() {
             onPointerEnter={() => setIsHoveringNap(true)}
             onPointerLeave={() => { setIsHoveringNap(false); setNapSecs(8); }}
           >
-            <span className="pg-label">{"// 05 nap pad"}</span>
+            <span className="pg-label">pad 05 · hold still &amp; snooze</span>
             <div className="pg-nap-box">
               <span className="pg-nap-status">
                 {napSecs === 0 ? "nib is sleeping! zzz" : `hold still here: ${napSecs}s`}
@@ -166,7 +166,7 @@ export default function Playground() {
 
           {/* Pad 6: Typing pad (native cursor) */}
           <div className="pg-pad pg-pad--type">
-            <span className="pg-label">{"// 06 typing pad (native)"}</span>
+            <span className="pg-label">pad 06 · say something</span>
             <input
               type="text"
               className="pg-input"
@@ -184,7 +184,7 @@ export default function Playground() {
 
           {/* Pad 7: Night pad (mood / palette shift) */}
           <div className="pg-pad pg-pad--night">
-            <span className="pg-label">{"// 07 dial-up night shift"}</span>
+            <span className="pg-label">pad 07 · dial-up night shift</span>
             <button
               type="button"
               className="tb-btn pg-night-btn"
