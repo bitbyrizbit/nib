@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Window from "@/components/shell/Window";
-import { ensure, getTime, pluckAt, subscribeAudio, isMuted, useMuted } from "@/lib/audio";
+import { ensure, getTime, pluckAt, subscribeAudio, isMuted, useMuted, play } from "@/lib/audio";
 import { nib } from "@/components/nib/nibBus";
 
 const NOTES = [523.25, 587.33, 659.25, 783.99];
@@ -103,11 +103,17 @@ export default function NibbleBox() {
     const url = `${location.origin}${location.pathname}#box=${toHex(cols)}`;
     try {
       await navigator.clipboard.writeText(url);
+      play("copied");
       setMsg("link copied");
     } catch {
       setMsg(url);
     }
     setTimeout(() => setMsg(""), 3000);
+  };
+
+  const shake = () => {
+    play("shake");
+    setCols(Array.from({ length: 4 }, () => Math.floor(Math.random() * 16)));
   };
 
   return (
@@ -140,7 +146,7 @@ export default function NibbleBox() {
           <button
             type="button"
             className="tb-btn"
-            onClick={() => setCols(Array.from({ length: 4 }, () => Math.floor(Math.random() * 16)))}
+            onClick={shake}
           >
             shake
           </button>

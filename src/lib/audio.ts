@@ -60,7 +60,62 @@ export function pluckAt(freq: number, t: number) {
   tone(freq * 4.01, t, 0.1, { type: "triangle", gain: 0.03 });
 }
 
-export type Sfx = "click" | "yelp" | "adopt" | "pop";
+function noise(t0: number, dur: number, lo: number, hi: number, gain: number) {
+  if (!ctx || !master) return;
+  const len = Math.floor(ctx.sampleRate * dur);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const bp = ctx.createBiquadFilter();
+  bp.type = "bandpass";
+  bp.Q.value = 2;
+  bp.frequency.setValueAtTime(lo, t0);
+  bp.frequency.linearRampToValueAtTime(hi, t0 + dur);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(gain, t0);
+  g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
+  src.connect(bp).connect(g).connect(master);
+  src.start(t0);
+  src.stop(t0 + dur);
+  live.add(src);
+  src.onended = () => live.delete(src);
+}
+
+const DTMF: Record<string, [number, number]> = {
+  "1": [697, 1209],
+  "2": [697, 1336],
+  "3": [697, 1477],
+  "4": [770, 1209],
+  "5": [770, 1336],
+};
+
+export function playDialup(): number {
+  if (muted) return 0;
+  const c = ensure();
+  if (!c) return 0;
+  const start = c.currentTime + 0.05;
+  let t = start;
+  for (const digit of "5551234") {
+    const [a, b] = DTMF[digit] || [770, 1336];
+    tone(a, t, 0.09, { type: "sine", gain: 0.06 });
+    tone(b, t, 0.09, { type: "sine", gain: 0.06 });
+    t += 0.14;
+  }
+  t += 0.5;
+  tone(2100, t, 0.9, { type: "sine", gain: 0.05 });
+  t += 1.0;
+  for (let i = 0; i < 24; i++) {
+    tone(i % 2 ? 2250 : 1200, t, 0.07, { type: "sine", gain: 0.05 });
+    t += 0.075;
+  }
+  noise(t, 1.6, 800, 3500, 0.12);
+  for (let i = 0; i < 14; i++) tone(1000 + Math.random() * 1600, t + i * 0.11, 0.05, { type: "square", gain: 0.03 });
+  return t + 1.6 - start;
+}
+
+export type Sfx = "click" | "yelp" | "adopt" | "pop" | "shake" | "copied";
 
 export function play(name: Sfx) {
   if (muted) return;
@@ -73,6 +128,11 @@ export function play(name: Sfx) {
   else if (name === "adopt") {
     pluckAt(523.25, t);
     pluckAt(783.99, t + 0.12);
+  } else if (name === "shake") {
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => pluckAt(f, t + i * 0.06));
+  } else if (name === "copied") {
+    pluckAt(783.99, t);
+    pluckAt(1046.5, t + 0.08);
   }
 }
 
