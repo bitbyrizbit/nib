@@ -57,6 +57,26 @@ export class NibBrain {
   private nextWander = 0;
   private touchReady = false;
 
+  private hatchT = -1;
+  private hatchFromX = 0;
+  private hatchFromY = 0;
+  firstMove = true;
+
+  hatch(fromX: number, fromY: number) {
+    this.hatchT = 0;
+    this.hatchFromX = fromX;
+    this.hatchFromY = fromY;
+    this.tipX = fromX;
+    this.tipY = fromY;
+    this.sx.x = 1.5;
+    this.sy.x = 0.5;
+    this.hop.v = -260;
+  }
+
+  skipHatch() {
+    this.hatchT = -1;
+  }
+
   resize(w: number, h: number) { this.width = w; this.height = h; }
 
   setMode(m: "mouse" | "touch") {
@@ -102,7 +122,20 @@ export class NibBrain {
     this.now += dt;
     const prevX = this.tipX, prevY = this.tipY;
 
-    if (this.mode === "mouse") {
+    if (this.hatchT >= 0) {
+      this.hatchT += dt;
+      const k = Math.min(1, this.hatchT / 0.9);
+      const e = 1 - Math.pow(1 - k, 3);
+      const dx = this.mode === "mouse" ? this.px : this.wx;
+      const dy = this.mode === "mouse" ? this.py : this.wy;
+      this.tipX = this.hatchFromX + (dx - this.hatchFromX) * e;
+      this.tipY = this.hatchFromY + (dy - this.hatchFromY) * e;
+      this.alpha = 1;
+      if (k >= 1) {
+        this.hatchT = -1;
+        window.dispatchEvent(new Event("nib:hatched"));
+      }
+    } else if (this.mode === "mouse") {
       if (this.hasPointer) { this.tipX = this.px; this.tipY = this.py; }
     } else if (this.reduced) {
       this.tipX = this.wx; this.tipY = this.wy;

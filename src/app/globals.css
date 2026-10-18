@@ -1040,3 +1040,28 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   .story__scene { display: block !important; margin-bottom: var(--s5); }
   .story__dots { display: none !important; }
 }
+
+/* NIB Birth (Step 7.1) */
+html:not([data-fx="off"]) .birth {
+  position: fixed;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  z-index: 9000;
+  pointer-events: none;
+}
+html:not([data-fx="off"]) .birth span {
+  width: 22px;
+  height: 22px;
+  background: var(--nib);
+  border: 2px solid var(--line);
+  animation: birth-blink 0.8s steps(2) infinite;
+}
+html:not([data-fx="off"]) .birth span:nth-child(odd) {
+  animation-delay: 0.4s;
+}
+@keyframes birth-blink {
+  50% { opacity: 0.2; }
+}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bagel_Fat_One, Pixelify_Sans, VT323 } from "next/font/google";
+import BirthBits from "@/components/nib/BirthBits";
 import NibLayer from "@/components/nib/NibLayer";
 import NightLight from "@/components/nib/NightLight";
 import NibVoice from "@/components/nib/NibVoice";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
       <body>
         {children}
+        <BirthBits />
         <NibLayer />
         <NightLight />
         <NibVoice />

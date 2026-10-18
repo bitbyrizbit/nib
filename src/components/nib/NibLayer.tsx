@@ -49,11 +49,44 @@ export default function NibLayer() {
     const enableMouse = () => { if (brain.mode !== "mouse") brain.setMode("mouse"); root.classList.add("nib-on"); };
     const enableTouch = () => { brain.setMode("touch"); root.classList.remove("nib-on"); };
 
+    const shouldHatch = () => {
+      if (document.documentElement.dataset.fx === "off") return false;
+      if (rm.matches) return false;
+      try {
+        if (sessionStorage.getItem("nib:born")) return false;
+      } catch {}
+      return true;
+    };
+
+    if (!shouldHatch()) {
+      brain.firstMove = false;
+      window.dispatchEvent(new Event("nib:hatched"));
+    }
+
+    const triggerHatch = () => {
+      if (!brain.firstMove || !shouldHatch()) return;
+      brain.firstMove = false;
+      try { sessionStorage.setItem("nib:born", "1"); } catch {}
+      brain.hatch(innerWidth / 2, innerHeight * 0.42);
+    };
+
+    let touchHatchTimer: NodeJS.Timeout | null = null;
+    if (shouldHatch()) {
+      touchHatchTimer = setTimeout(() => {
+        if (brain.firstMove) triggerHatch();
+      }, 1200);
+    }
+
     const onMove = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
-      keyboard = false; enableMouse(); brain.pointerMove(e.clientX, e.clientY);
+      keyboard = false;
+      enableMouse();
+      if (brain.firstMove) triggerHatch();
+      brain.pointerMove(e.clientX, e.clientY);
     };
     const onDown = (e: PointerEvent) => {
+      brain.skipHatch();
+      window.dispatchEvent(new Event("nib:hatched"));
       if (e.pointerType === "touch") { enableTouch(); brain.tap(e.clientX, e.clientY); }
       else { enableMouse(); brain.pointerMove(e.clientX, e.clientY); brain.pointerDown(); }
     };
@@ -64,7 +97,11 @@ export default function NibLayer() {
       brain.setTarget(c.kind, c.el ? toRect(c.el) : null);
     };
     const onLeave = () => brain.leave();
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Tab") keyboard = true; };
+    const onKey = (e: KeyboardEvent) => {
+      brain.skipHatch();
+      window.dispatchEvent(new Event("nib:hatched"));
+      if (e.key === "Tab") keyboard = true;
+    };
     const onFocus = (e: FocusEvent) => {
       if (!keyboard || !(e.target instanceof Element)) return;
       const c = classify(e.target);
@@ -114,6 +151,7 @@ export default function NibLayer() {
     rm.addEventListener("change", onRm);
 
     return () => {
+      if (touchHatchTimer) clearTimeout(touchHatchTimer);
       cancelAnimationFrame(raf);
       removeEventListener("resize", resize);
       removeEventListener("pointermove", onMove);
