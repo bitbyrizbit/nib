@@ -1,5 +1,6 @@
 import LostFound from "@/components/projects/LostFound";
 import Playground from "@/components/projects/Playground";
+import NibbleBox from "@/components/projects/NibbleBox";
 
 export default function Projects() {
   return (
@@ -14,6 +15,9 @@ export default function Projects() {
         </div>
         <div className="projects-col projects-col--right">
           <Playground />
+        </div>
+        <div className="projects-col projects-col--wide">
+          <NibbleBox />
         </div>
       </div>
     </section>
