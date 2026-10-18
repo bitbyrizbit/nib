@@ -66,6 +66,30 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
 .sticker { justify-self: start; transform: rotate(-3deg); background: var(--signal); color: #fff; padding: var(--s2) var(--s4); border: 2px solid var(--line); font-family: var(--font-mono); font-size: 22px; text-transform: none; }
 .hint { font-family: var(--font-mono); font-size: 20px; color: var(--text-soft); }
 
+/* Screen reader only */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* Story */
+.story { height: calc(5 * 90dvh); }
+.story__stage { position: sticky; top: 0; height: calc(100dvh - var(--taskbar-h)); display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s5); align-items: center; }
+.story__art { width: 100%; height: auto; max-height: 400px; background: var(--plastic); border: 2px solid var(--line); box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi), 6px 6px 0 var(--shadow-c); }
+.story__list { list-style: none; margin: 0; padding: 0; }
+.story__scene { display: none; }
+.story__scene[data-active="true"] { display: block; }
+.story__scene h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--s2); font-family: var(--font-display); }
+.story__scene p { font-size: 19px; line-height: 1.6; margin-bottom: var(--s4); color: var(--text); }
+.story__dots { display: flex; gap: var(--s2); margin-top: var(--s4); }
+
+@media (max-width: 800px) {
+  .story__stage { grid-template-columns: 1fr; align-content: center; }
+  .story__art { max-height: 220px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .story { height: auto !important; }
+  .story__stage { position: static !important; height: auto !important; display: block !important; }
+  .story__art { margin-bottom: var(--s4); }
+  .story__scene { display: block !important; margin-bottom: var(--s5); }
+  .story__dots { display: none !important; }
 }
