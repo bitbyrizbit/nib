@@ -715,6 +715,83 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   border-top-color: rgba(255, 255, 255, 0.15);
 }
 
+/* Chaos Mode */
+.chaos-controls {
+  display: none;
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  html:not([data-chaos="off"]) body {
+    background: #8c8570;
+    padding: 16px 16px calc(var(--taskbar-h) + 72px);
+  }
+  html:not([data-chaos="off"]) .main {
+    background: var(--wallpaper);
+    border: 6px solid #1c1b18;
+    border-radius: 18px;
+    box-shadow: inset 0 0 0 4px var(--plastic-hi), 0 8px 0 #1c1b18;
+    padding: var(--s5);
+  }
+  html:not([data-chaos="off"]) .projects {
+    grid-template-columns: 1fr 1fr;
+  }
+  html:not([data-chaos="off"]) .projects .window__bar {
+    clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%);
+  }
+  html:not([data-chaos="off"]) .chaos-controls {
+    display: flex;
+    gap: var(--s3);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--taskbar-h);
+    justify-content: center;
+    padding: var(--s2);
+    background: var(--plastic);
+    border-top: 2px solid var(--line);
+    z-index: 49;
+  }
+}
+
+@media (max-width: 699px) {
+  html:not([data-chaos="off"]) body {
+    background: #2a2d1f;
+    padding: 10px 10px calc(var(--taskbar-h) + 72px);
+  }
+  html:not([data-chaos="off"]):not([data-theme="night"]) {
+    --wallpaper: #b9c98a;
+    --plastic: #c7d79a;
+    --plastic-hi: #e3efc0;
+    --plastic-lo: #8a9a5c;
+    --line: #1f2a12;
+    --text: #1f2a12;
+    --text-soft: #3b4a22;
+    --title-bg: #1f2a12;
+    --title-fg: #c7d79a;
+  }
+  html:not([data-chaos="off"]) .main {
+    border: 8px solid #1c1b18;
+    border-radius: 22px 22px 40px 40px;
+    padding: var(--s4);
+  }
+  html:not([data-chaos="off"]) .tb-btn {
+    min-height: 56px;
+  }
+  html:not([data-chaos="off"]) .chaos-controls {
+    display: flex;
+    gap: var(--s3);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--taskbar-h);
+    justify-content: center;
+    padding: var(--s2);
+    background: var(--plastic);
+    border-top: 2px solid var(--line);
+    z-index: 49;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .story { height: auto !important; }

@@ -10,7 +10,7 @@ export default function Projects() {
         <h2>projects.dir</h2>
         <p className="projects-sub">things nib made, found, or broke while exploring the internet</p>
       </div>
-      <div className="projects-cluster">
+      <div className="projects-cluster projects">
         <div className="projects-col projects-col--left">
           <LostFound />
         </div>

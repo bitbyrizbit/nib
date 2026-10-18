@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
 
-const themeScript = `(function(){try{var t=localStorage.getItem('nib:theme');if(t!=='day'&&t!=='night'){t=matchMedia('(prefers-color-scheme: dark)').matches?'night':'day'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='day'}})()`;
+const themeScript = `(function(){try{if(/[?&]chaos=0\\b/.test(location.search)){document.documentElement.dataset.chaos='off'}var t=localStorage.getItem('nib:theme');if(t!=='day'&&t!=='night'){t=matchMedia('(prefers-color-scheme: dark)').matches?'night':'day'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='day'}})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
