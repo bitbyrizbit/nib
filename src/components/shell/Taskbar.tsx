@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { NAV } from "@/lib/nav";
 import ThemeToggle from "./ThemeToggle";
 import MuteButton from "./MuteButton";
+import DialDialog from "./DialDialog";
 
 export default function Taskbar() {
   const [menu, setMenu] = useState(false);
+  const [dialOpen, setDialOpen] = useState(false);
   const [time, setTime] = useState("--:--");
 
   useEffect(() => {
@@ -29,6 +31,16 @@ export default function Taskbar() {
           {NAV.map((n) => (
             <a key={n.id} href={`#${n.id}`} onClick={() => setMenu(false)}>{n.label}</a>
           ))}
+          <button
+            type="button"
+            className="start-menu__action"
+            onClick={() => {
+              setMenu(false);
+              setDialOpen(true);
+            }}
+          >
+            dial up...
+          </button>
         </nav>
       )}
       <div className="taskbar" role="toolbar" aria-label="nib taskbar">
@@ -38,6 +50,7 @@ export default function Taskbar() {
         <ThemeToggle />
         <span className="tb-clock" aria-label="Local time">{time}</span>
       </div>
+      <DialDialog open={dialOpen} onClose={() => setDialOpen(false)} />
     </>
   );
 }
