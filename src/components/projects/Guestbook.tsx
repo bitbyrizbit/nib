@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Window from "@/components/shell/Window";
+import { rememberName } from "@/lib/visitor";
 import type { Entry } from "@/lib/types";
 
 const FACES = ["hi", "wow", "zzz", "love"] as const;
@@ -80,6 +81,7 @@ export default function Guestbook() {
       }
       setEntries((prev) => [d.entry, ...prev]);
       setTotal((t) => t + 1);
+      if (name) rememberName(name);
       setMessage("");
       setStatus("thank you! nib put it on the wall.");
     } catch {

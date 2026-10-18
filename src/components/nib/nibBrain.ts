@@ -1,7 +1,7 @@
 import { makeSpring, stepSpring } from "./spring";
 import { REAR, S } from "./nibShape";
 
-export type Mood = "idle" | "curious" | "read" | "sleepy" | "asleep" | "pout" | "grab" | "happy";
+export type Mood = "idle" | "curious" | "read" | "sleepy" | "asleep" | "pout" | "grab" | "happy" | "dizzy";
 export type Kind = "none" | "link" | "text" | "disabled" | "drag" | "native";
 export type Rect = { x: number; y: number; w: number; h: number };
 export type TailPoint = { x: number; y: number; px: number; py: number };
@@ -22,6 +22,7 @@ export class NibBrain {
   tipY = -200;
   vx = 0;
   vy = 0;
+  scrollV = 0;
   kind: Kind = "none";
   rect: Rect | null = null;
   down = false;
@@ -39,11 +40,21 @@ export class NibBrain {
   particles: Particle[] = [];
   bow = false;
   trailPink = false;
+  fidget: "none" | "look" | "wag" | "yawn" = "none";
+  turboUntil = 0;
   onMood: ((m: Mood) => void) | null = null;
   onWake: (() => void) | null = null;
   onClick: (() => void) | null = null;
 
+  get scale() {
+    return S * (this.turboUntil > this.now ? 1.4 : 1);
+  }
+
   private lastSpawn = 0;
+  private fidgetUntil = 0;
+  private nextFidget = 6;
+  private dizzyFor = 0;
+  private dizzyUntil = 0;
 
   private px = -200;
   private py = -200;
@@ -153,9 +164,21 @@ export class NibBrain {
     this.vx += ((this.tipX - prevX) / dt - this.vx) * 0.25;
     this.vy += ((this.tipY - prevY) / dt - this.vy) * 0.25;
 
+    // scroll decay & dizzy detection
+    this.scrollV *= Math.pow(0.001, dt);
+    if (!this.reduced && Math.abs(this.scrollV) > 2200) {
+      this.dizzyFor += dt;
+    } else {
+      this.dizzyFor = Math.max(0, this.dizzyFor - dt);
+    }
+    if (this.dizzyFor > 0.6) {
+      this.dizzyUntil = this.now + 1.2;
+    }
+
     // particles trail
     const speed = Math.hypot(this.vx, this.vy);
-    if (!this.reduced && this.mode === "mouse" && this.alpha > 0.5 && speed > 600 && this.now - this.lastSpawn > 0.04 && this.particles.length < 60) {
+    const speedThreshold = this.turboUntil > this.now ? 150 : 600;
+    if (!this.reduced && this.mode === "mouse" && this.alpha > 0.5 && speed > speedThreshold && this.now - this.lastSpawn > 0.04 && this.particles.length < 60) {
       this.lastSpawn = this.now;
       this.particles.push({
         x: this.tipX + (Math.random() - 0.5) * 12,
@@ -177,6 +200,7 @@ export class NibBrain {
     let m: Mood = "idle";
     if (clicking) m = "happy";
     else if (this.kind === "disabled") m = "pout";
+    else if (this.now < this.dizzyUntil) m = "dizzy";
     else if (this.down && this.kind === "drag") m = "grab";
     else if (this.kind === "link") m = "curious";
     else if (this.kind === "text") m = "read";
@@ -184,13 +208,32 @@ export class NibBrain {
     else if (idle > 8 || (this.night && idle > 3)) m = "sleepy";
     if (m !== this.mood) { this.mood = m; this.onMood?.(m); }
 
+    // idle fidgets (Step 9.1)
+    if (!this.reduced) {
+      if (m === "idle" && idle > 3 && idle < 8 && this.now > this.nextFidget && this.fidget === "none") {
+        const pick = (["look", "wag", "yawn"] as const)[Math.floor(Math.random() * 3)];
+        this.fidget = pick;
+        this.fidgetUntil = this.now + (pick === "yawn" ? 1.4 : pick === "look" ? 1.6 : 0.8);
+        this.nextFidget = this.now + 4 + Math.random() * 5;
+        if (pick === "wag") this.tail.forEach((p, i) => { p.px += i % 2 ? 5 : -5; });
+      }
+      if (this.fidget !== "none" && (this.now > this.fidgetUntil || m !== "idle")) {
+        this.fidget = "none";
+      }
+    } else {
+      this.fidget = "none";
+    }
+
     // visibility
     const wantAlpha = this.kind === "native" || !this.inside || (this.mode === "mouse" && !this.hasPointer) ? 0 : 1;
     this.alpha += (wantAlpha - this.alpha) * Math.min(1, dt * 12);
 
     // eyes
     let lx = 0, ly = 0;
-    if (this.rect && this.kind !== "none") {
+    if (this.fidget === "look") {
+      lx = Math.sin(this.now * 4);
+      ly = Math.cos(this.now * 3) * 0.4;
+    } else if (this.rect && this.kind !== "none") {
       const dx = this.rect.x + this.rect.w / 2 - this.tipX, dy = this.rect.y + this.rect.h / 2 - this.tipY;
       const d = Math.hypot(dx, dy) || 1; lx = dx / d; ly = dy / d;
     } else {
@@ -212,6 +255,9 @@ export class NibBrain {
     // body targets
     let a = clamp(this.vx * 0.0009, -0.35, 0.35);
     let sxT = 1, syT = 1;
+    if (this.fidget === "yawn") {
+      syT *= 1.1;
+    }
     switch (m) {
       case "curious": a += 0.22; sxT = 1.05; syT = 1.05; break;
       case "read": a -= 0.08; syT = 0.94; break;
@@ -219,6 +265,7 @@ export class NibBrain {
       case "asleep": a += 0.55; syT = 0.9; break;
       case "pout": a += Math.sin(this.now * 38) * 0.06; break;
       case "grab": syT = 1.28; sxT = 0.86; break;
+      case "dizzy": a += Math.sin(this.now * 14) * 0.12; break;
     }
     const s = Math.min(Math.hypot(this.vx, this.vy) / 3500, 0.22);
     syT *= 1 + s; sxT *= 1 - s * 0.6;
@@ -236,7 +283,7 @@ export class NibBrain {
   }
 
   private updateTail(dt: number, still: boolean) {
-    const a = this.angle.x, sx = S * this.sx.x, sy = S * this.sy.x;
+    const a = this.angle.x, sx = this.scale * this.sx.x, sy = this.scale * this.sy.x;
     const rx = this.tipX + Math.cos(a) * REAR.x * sx - Math.sin(a) * REAR.y * sy;
     const ry = this.tipY + this.hop.x + Math.sin(a) * REAR.x * sx + Math.cos(a) * REAR.y * sy;
     if (this.tail.length === 0) {

@@ -1,5 +1,5 @@
 import type { NibBrain } from "./nibBrain";
-import { BODY, EYES, EYE_R, MOUTH, S } from "./nibShape";
+import { BODY, EYES, EYE_R, MOUTH } from "./nibShape";
 
 export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
   if (b.particles.length) {
@@ -86,7 +86,7 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
 
   ctx.translate(b.tipX, b.tipY + b.hop.x);
   ctx.rotate(b.angle.x);
-  ctx.scale(S * b.sx.x, S * b.sy.x);
+  ctx.scale(b.scale * b.sx.x, b.scale * b.sy.x);
 
   if (!night) {
     ctx.save();
@@ -146,6 +146,32 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
       ctx.stroke();
       return;
     }
+    if (m === "dizzy") {
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.ellipse(e.x, e.y, EYE_R, EYE_R, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Spiral pupil
+      ctx.save();
+      ctx.translate(e.x, e.y);
+      ctx.rotate(b.now * 8);
+      ctx.beginPath();
+      for (let theta = 0; theta < Math.PI * 3; theta += 0.2) {
+        const r = (theta / (Math.PI * 3)) * 1.5;
+        const px = Math.cos(theta) * r;
+        const py = Math.sin(theta) * r;
+        if (theta === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = line;
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+      ctx.restore();
+      return;
+    }
+
     const open = b.blink > 0 ? 0.08 : 1 - lid;
     ctx.fillStyle = "#fff";
     ctx.beginPath();
@@ -178,7 +204,9 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
   ctx.beginPath();
   const mx = MOUTH.x,
     my = MOUTH.y;
-  if (m === "happy") {
+  if (b.fidget === "yawn") {
+    ctx.arc(mx, my + 0.4, 1.3, 0, Math.PI * 2);
+  } else if (m === "happy") {
     ctx.moveTo(mx - 1.4, my - 0.3);
     ctx.quadraticCurveTo(mx, my + 2, mx + 1.4, my - 0.3);
   } else if (m === "pout") {
@@ -186,6 +214,10 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
     ctx.quadraticCurveTo(mx, my - 0.4, mx + 1, my + 0.8);
   } else if (m === "curious") {
     ctx.arc(mx, my + 0.3, 0.7, 0, Math.PI * 2);
+  } else if (m === "dizzy") {
+    ctx.moveTo(mx - 1.5, my);
+    ctx.quadraticCurveTo(mx - 0.75, my - 0.8, mx, my);
+    ctx.quadraticCurveTo(mx + 0.75, my + 0.8, mx + 1.5, my);
   } else if (m === "read" || m === "asleep") {
     ctx.moveTo(mx - 1, my);
     ctx.lineTo(mx + 1, my);

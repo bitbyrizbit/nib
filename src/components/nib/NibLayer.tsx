@@ -97,10 +97,23 @@ export default function NibLayer() {
       brain.setTarget(c.kind, c.el ? toRect(c.el) : null);
     };
     const onLeave = () => brain.leave();
+    const SEQ = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    let konamiPos = 0;
+
     const onKey = (e: KeyboardEvent) => {
       brain.skipHatch();
       window.dispatchEvent(new Event("nib:hatched"));
       if (e.key === "Tab") keyboard = true;
+
+      // Konami code (Step 9.5)
+      if (!(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLTextAreaElement)) {
+        konamiPos = e.key.toLowerCase() === SEQ[konamiPos].toLowerCase() ? konamiPos + 1 : e.key === SEQ[0] ? 1 : 0;
+        if (konamiPos === SEQ.length) {
+          konamiPos = 0;
+          brain.turboUntil = brain.now + 6;
+          window.dispatchEvent(new Event("nib:turbo"));
+        }
+      }
     };
     const onFocus = (e: FocusEvent) => {
       if (!keyboard || !(e.target instanceof Element)) return;
@@ -111,7 +124,15 @@ export default function NibLayer() {
       hoverEl = c.el ?? e.target;
       brain.setTarget(c.kind === "none" ? "link" : c.kind, toRect(hoverEl));
     };
-    const onScroll = () => brain.poke();
+    let lastY = scrollY, lastT = performance.now();
+    const onScroll = () => {
+      brain.poke();
+      const now = performance.now();
+      const v = ((scrollY - lastY) / Math.max(1, now - lastT)) * 1000;
+      brain.scrollV += (v - brain.scrollV) * 0.3;
+      lastY = scrollY;
+      lastT = now;
+    };
     const onRm = () => { brain.reduced = rm.matches; };
 
     const frame = (t: number) => {
@@ -142,9 +163,20 @@ export default function NibLayer() {
         }
       }
     };
+    let hiddenAt = 0;
     const onVis = () => {
-      if (document.hidden) cancelAnimationFrame(raf);
-      else { last = performance.now(); raf = requestAnimationFrame(frame); }
+      if (document.hidden) {
+        hiddenAt = performance.now();
+        cancelAnimationFrame(raf);
+      } else {
+        if (hiddenAt && performance.now() - hiddenAt > 10000) {
+          brain.pointerDown();
+          brain.pointerUp();
+          window.dispatchEvent(new Event("nib:back"));
+        }
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
     };
 
     resize();

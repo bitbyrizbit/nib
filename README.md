@@ -41,6 +41,7 @@ Built for the **haX.baby "Baby's First Website"** hackathon (Track 2: Your Own B
 - **Hand-written Canvas Physics Engine:** Real-time spring physics, Verlet-tail simulation, and mood state machine. Built entirely with vanilla TypeScript and HTML5 Canvas — zero animation frameworks or UI kits.
 - **Web Audio API Synth:** Procedural audio synthesis without any audio files, MP3s, or external sound samples. Features a master mute switch that silences all sources.
 - **Real Upstash Redis Backend:** Live atomic visitor counter, secret-finder milestone tracker, and guestbook wall with rate limiting and profanity protection. Runs in an in-memory fallback demo mode if credentials are unset.
+- **Aliveness & Local Memory:** NIB remembers returning visitors and greets them by name using the browser's local storage. Nothing is sent anywhere. Includes an interactive `forget me` button in the footer to reset all stored state at any time.
 
 ---
 

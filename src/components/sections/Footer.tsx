@@ -1,9 +1,11 @@
 "use client";
+import { useState } from "react";
 import Odometer from "@/components/ui/Odometer";
 import { useVisits } from "@/lib/useVisits";
 
 export default function Footer() {
   const { count, demo } = useVisits();
+  const [forgetMsg, setForgetMsg] = useState("");
 
   return (
     <footer className="footer" role="contentinfo">
@@ -43,6 +45,27 @@ export default function Footer() {
             <li><strong>Audio:</strong> Synthesized in-browser with Web Audio API. Zero audio files or external samples.</li>
             <li><strong>Source code:</strong> <a href="https://github.com/bitbyrizbit/nib" target="_blank" rel="noopener noreferrer">github.com/bitbyrizbit/nib</a></li>
           </ul>
+        </div>
+
+        <div className="footer-privacy">
+          <button
+            type="button"
+            className="footer-forget-btn"
+            onClick={() => {
+              if (window.confirm("Forget this browser's visits, name, and adopted items?")) {
+                localStorage.removeItem("nib:visitor");
+                localStorage.removeItem("nib:adopted");
+                localStorage.removeItem("nib:egg");
+                localStorage.removeItem("nib:eggPosted");
+                localStorage.removeItem("nib:lastVisit");
+                setForgetMsg("forgotten.");
+                setTimeout(() => setForgetMsg(""), 3000);
+              }
+            }}
+          >
+            forget me
+          </button>
+          {forgetMsg && <span className="hint footer-forget-msg" role="status">{forgetMsg}</span>}
         </div>
       </div>
     </footer>

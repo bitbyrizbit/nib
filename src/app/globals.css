@@ -682,6 +682,30 @@ html:not([data-fx="off"]) .window.js-reveal[data-in="true"] {
 .footer-credits li {
   margin-bottom: var(--s1);
 }
+.footer-privacy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s2);
+}
+.footer-forget-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-soft);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+}
+.footer-forget-btn:hover {
+  color: var(--signal);
+}
+.footer-forget-msg {
+  font-family: var(--font-mono);
+  color: var(--signal);
+}
 
 /* Easter Egg Modal */
 .egg {

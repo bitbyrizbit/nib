@@ -2,12 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import { nib, nibBus } from "./nibBus";
 import type { Mood } from "./nibBrain";
+import { touchVisitor } from "@/lib/visitor";
 
 const LINES: Partial<Record<Mood, string>> = {
   curious: "oh! a link",
   read: "reading is hard. i'm trying.",
   pout: "that one's not for me.",
   asleep: "zzz",
+  dizzy: "whoa. too fast.",
 };
 
 export default function NibVoice() {
@@ -63,14 +65,33 @@ export default function NibVoice() {
       }
     };
 
+    const onBack = () => {
+      say("you're back!", true);
+    };
+
+    const onTurbo = () => {
+      say("level up.", true);
+    };
+
     window.addEventListener("nib:adopted", onAdopt);
     window.addEventListener("nib:egg", onEgg);
     window.addEventListener("nib:theme", onTheme);
+    window.addEventListener("nib:back", onBack);
+    window.addEventListener("nib:turbo", onTurbo);
 
     const hi = setTimeout(() => {
       if (!seenRef.current.has("hi")) {
         seenRef.current.add("hi");
-        say("hi. be gentle.");
+        const vis = touchVisitor();
+        if (vis.visits > 1) {
+          if (vis.name) {
+            say(`hi again, ${vis.name}.`);
+          } else {
+            say("hi again. you came back.");
+          }
+        } else {
+          say("hi. be gentle.");
+        }
       }
     }, 2500);
 
@@ -92,6 +113,8 @@ export default function NibVoice() {
       window.removeEventListener("nib:adopted", onAdopt);
       window.removeEventListener("nib:egg", onEgg);
       window.removeEventListener("nib:theme", onTheme);
+      window.removeEventListener("nib:back", onBack);
+      window.removeEventListener("nib:turbo", onTurbo);
       if (nib.brain) nib.brain.onWake = null;
     };
   }, [text]);
