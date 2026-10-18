@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Window from "@/components/shell/Window";
-import NibSvg from "@/components/nib/NibSvg";
+import NibPortrait from "./NibPortrait";
 import { nibSvg, pngBlob, curBlob, download } from "@/lib/takeHome";
 import { pop } from "@/lib/audio";
 
@@ -77,9 +77,7 @@ export default function TakeHome() {
             </header>
 
             <div className="takehome-preview">
-              <svg width="120" height="170" viewBox="0 0 24 34" aria-hidden="true" className="takehome-svg">
-                <NibSvg size={120} />
-              </svg>
+              <NibPortrait size={120} />
             </div>
 
             <div className="takehome-controls">
