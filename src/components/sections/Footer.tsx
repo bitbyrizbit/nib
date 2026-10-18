@@ -1,4 +1,10 @@
+"use client";
+import Odometer from "@/components/ui/Odometer";
+import { useVisits } from "@/lib/useVisits";
+
 export default function Footer() {
+  const { count, demo } = useVisits();
+
   return (
     <footer className="footer" role="contentinfo">
       <div className="footer-badges" aria-label="Web buttons">
@@ -14,6 +20,12 @@ export default function Footer() {
           <span className="badge-top">INTERNET BABY</span>
           <span className="badge-bot">CLICK GENTLY</span>
         </a>
+      </div>
+
+      <div className="footer-counter" aria-live="polite">
+        {count !== null && <span className="counter-label">you are visitor no.</span>}
+        <Odometer value={count} />
+        {demo && <span className="hint counter-demo">demo mode, not saved</span>}
       </div>
 
       <div className="footer-content">

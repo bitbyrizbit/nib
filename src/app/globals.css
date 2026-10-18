@@ -517,6 +517,54 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   transition: opacity 0.15s ease-out;
 }
 
+/* Odometer & Visitor Counter */
+.footer-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s4);
+}
+.counter-label {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.counter-demo {
+  color: var(--signal);
+  font-size: 14px;
+}
+.odo {
+  display: inline-flex;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 32px;
+  line-height: 1.2em;
+  background: #1c1b18;
+  padding: 4px;
+  border: 2px solid var(--line);
+  box-shadow: 2px 2px 0 var(--shadow-c);
+}
+.odo__cell {
+  display: block;
+  width: 0.7em;
+  height: 1.2em;
+  overflow: hidden;
+  background: #000;
+  color: #7dffb0;
+  text-align: center;
+}
+.odo__strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.odo__strip span {
+  height: 1.2em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .story { height: auto !important; }
