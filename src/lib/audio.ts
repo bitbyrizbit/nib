@@ -76,6 +76,8 @@ export function play(name: Sfx) {
   }
 }
 
+export const pop = () => play("pop");
+
 const LULLABY = [659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 587.33, 659.25, 783.99, 659.25, 523.25];
 
 export function playLullaby() {

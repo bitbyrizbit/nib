@@ -8,6 +8,7 @@ const read = (): Theme => (typeof document !== "undefined" && document.documentE
 export function setTheme(t: Theme) {
   if (typeof document !== "undefined") {
     document.documentElement.dataset.theme = t;
+    window.dispatchEvent(new CustomEvent("nib:theme", { detail: t }));
   }
   try { localStorage.setItem("nib:theme", t); } catch {}
 }

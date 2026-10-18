@@ -52,8 +52,20 @@ export default function NibVoice() {
 
     const onEgg = () => say("you found it.", true);
 
+    const onTheme = (e: Event) => {
+      const mode = (e as CustomEvent<string>).detail;
+      if (mode === "night" && !seenRef.current.has("night")) {
+        seenRef.current.add("night");
+        say("lights down.");
+      } else if (mode === "day" && !seenRef.current.has("day")) {
+        seenRef.current.add("day");
+        say("good morning.");
+      }
+    };
+
     window.addEventListener("nib:adopted", onAdopt);
     window.addEventListener("nib:egg", onEgg);
+    window.addEventListener("nib:theme", onTheme);
 
     const hi = setTimeout(() => {
       if (!seenRef.current.has("hi")) {
@@ -79,6 +91,7 @@ export default function NibVoice() {
       cancelAnimationFrame(raf);
       window.removeEventListener("nib:adopted", onAdopt);
       window.removeEventListener("nib:egg", onEgg);
+      window.removeEventListener("nib:theme", onTheme);
       if (nib.brain) nib.brain.onWake = null;
     };
   }, [text]);
