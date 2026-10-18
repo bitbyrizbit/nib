@@ -394,6 +394,86 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   .sheet-row { grid-template-columns: 1fr; gap: 2px; }
 }
 
+/* Take NIB Home (Phase 6.1) */
+.takehome-section { display: grid; place-items: center; width: 100%; margin-top: var(--s5); }
+.takehome-wrap { max-width: 680px; width: 100%; }
+.takehome-body { display: grid; gap: var(--s4); font-family: var(--font-mono); }
+.takehome-header { border-bottom: 2px solid var(--line); padding-bottom: var(--s2); display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: var(--s2); }
+.takehome-header h2 { font-size: 20px; margin: 0; font-family: var(--font-mono); font-weight: bold; }
+.takehome-sub { font-size: 14px; color: var(--text-soft); }
+.takehome-preview { display: flex; justify-content: center; align-items: center; padding: var(--s4) var(--s2); background: var(--surface); border: 2px inset var(--line); border-radius: 4px; }
+.takehome-svg { filter: drop-shadow(4px 4px 0 var(--shadow-c)); }
+.takehome-controls { display: grid; gap: var(--s3); }
+.takehome-actions { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: stretch; }
+.takehome-btn {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  box-shadow: inset -2px -2px 0 var(--plastic-lo), inset 2px 2px 0 var(--plastic-hi);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: bold;
+  padding: var(--s2) var(--s3);
+  cursor: pointer;
+  color: var(--text);
+  min-height: 44px;
+}
+.takehome-btn:hover { background: var(--plastic); }
+.takehome-btn:active { box-shadow: inset 2px 2px 0 var(--plastic-lo); }
+.takehome-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.takehome-png-group { display: flex; flex-wrap: wrap; gap: 2px; align-items: center; }
+.takehome-sizes { display: inline-flex; border: 2px solid var(--line); background: var(--surface); }
+.size-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: var(--text);
+  min-height: 40px;
+}
+.size-btn:last-child { border-right: none; }
+.size-btn--active { background: var(--signal); color: #fff; font-weight: bold; }
+.takehome-status {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--signal);
+  margin: 0;
+  padding: var(--s1) var(--s2);
+  background: var(--surface);
+  border: 1px dashed var(--line);
+}
+.takehome-guide {
+  display: grid;
+  gap: var(--s2);
+  background: var(--surface);
+  border: 2px inset var(--line);
+  padding: var(--s3);
+  font-size: 14px;
+}
+.takehome-note { margin: 0; line-height: 1.5; color: var(--text); }
+.takehome-note strong { color: var(--signal); }
+.takehome-note code { font-family: var(--font-mono); background: rgba(0, 0, 0, 0.08); padding: 1px 4px; border-radius: 2px; }
+[data-theme="night"] .takehome-note code { background: rgba(255, 255, 255, 0.1); }
+.takehome-css { display: grid; gap: var(--s1); margin-top: var(--s1); }
+.css-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); background: rgba(0, 0, 0, 0.05); padding: var(--s1) var(--s2); border: 1px solid var(--line); }
+[data-theme="night"] .css-row { background: rgba(0, 0, 0, 0.3); }
+.css-row code { font-family: var(--font-mono); font-size: 13px; word-break: break-all; }
+.copy-btn {
+  background: var(--plastic);
+  border: 1px solid var(--line);
+  box-shadow: inset -1px -1px 0 var(--plastic-lo), inset 1px 1px 0 var(--plastic-hi);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 4px 10px;
+  cursor: pointer;
+  color: var(--text);
+  white-space: nowrap;
+}
+.copy-btn:hover { background: var(--surface); }
+
+
 /* Footer */
 .footer {
   max-width: 1180px;

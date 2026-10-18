@@ -16,6 +16,7 @@ Every font, library, sound generator, and asset used in NIB is fully open source
 
 ## Character Design & Art
 - **NIB Character & Assets**: 100% original artwork designed from scratch in code using SVG, CSS, and HTML5 Canvas.
+- **Cursor & Graphics Downloads**: NIB's art and generated `.cur`, `.png`, and `.svg` files are free to use as a personal mouse cursor and desktop avatar under the MIT License.
 - No third-party images, Pip assets, or haX.baby assets were used. All animations, icons, badges, and story scenes are handcrafted code.
 
 ## Audio Engine
