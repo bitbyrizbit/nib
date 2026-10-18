@@ -1,7 +1,11 @@
-export default function Home() {
+import Taskbar from "@/components/shell/Taskbar";
+import Hero from "@/components/sections/Hero";
+
+export default function Page() {
   return (
-    <main>
-      <h1>nib</h1>
-    </main>
+    <>
+      <main className="main"><Hero /></main>
+      <Taskbar />
+    </>
   );
 }
