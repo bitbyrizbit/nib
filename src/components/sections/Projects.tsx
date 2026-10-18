@@ -1,6 +1,7 @@
 import LostFound from "@/components/projects/LostFound";
 import Playground from "@/components/projects/Playground";
 import NibbleBox from "@/components/projects/NibbleBox";
+import Guestbook from "@/components/projects/Guestbook";
 
 export default function Projects() {
   return (
@@ -18,6 +19,9 @@ export default function Projects() {
         </div>
         <div className="projects-col projects-col--wide">
           <NibbleBox />
+        </div>
+        <div className="projects-col projects-col--wide">
+          <Guestbook />
         </div>
       </div>
     </section>

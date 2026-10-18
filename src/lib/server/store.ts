@@ -1,7 +1,8 @@
 import { Redis } from "@upstash/redis";
 import { createHash, randomUUID } from "node:crypto";
 
-export type Entry = { id: string; name: string; message: string; face: 0 | 1 | 2 | 3; ts: number };
+import type { Entry } from "@/lib/types";
+export type { Entry };
 
 const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
 const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
