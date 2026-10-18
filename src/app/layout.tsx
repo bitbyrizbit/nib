@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Bagel_Fat_One, Pixelify_Sans, VT323 } from "next/font/google";
 import NibLayer from "@/components/nib/NibLayer";
+import NibVoice from "@/components/nib/NibVoice";
+import SoundEffects from "@/components/shell/SoundEffects";
 import "./globals.css";
 
 const display = Bagel_Fat_One({ weight: "400", subsets: ["latin", "latin-ext"], variable: "--font-display-next", display: "swap" });
@@ -23,6 +25,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <NibLayer />
+        <NibVoice />
+        <SoundEffects />
       </body>
     </html>
   );

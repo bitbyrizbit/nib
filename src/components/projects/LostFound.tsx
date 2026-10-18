@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Window from "@/components/shell/Window";
 import { saveJSON } from "@/lib/storage";
+import { play } from "@/lib/audio";
 
 export type LostItem = {
   id: string;
@@ -146,6 +147,7 @@ export default function LostFound() {
     if (adopted.includes(id)) return;
     const next = [...adopted, id];
     saveJSON(STORAGE_KEY, next);
+    play("adopt");
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("nib:adopted", { detail: next.length }));
     }

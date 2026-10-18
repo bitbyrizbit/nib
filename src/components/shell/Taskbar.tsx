@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { NAV } from "@/lib/nav";
 import ThemeToggle from "./ThemeToggle";
+import MuteButton from "./MuteButton";
 
 export default function Taskbar() {
   const [menu, setMenu] = useState(false);
@@ -33,6 +34,7 @@ export default function Taskbar() {
       <div className="taskbar" role="toolbar" aria-label="nib taskbar">
         <button type="button" className="tb-btn" aria-expanded={menu} aria-haspopup="true" onClick={() => setMenu((m) => !m)}>nib ▸</button>
         <div className="taskbar__spacer" />
+        <MuteButton />
         <ThemeToggle />
         <span className="tb-clock" aria-label="Local time">{time}</span>
       </div>
