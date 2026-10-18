@@ -27,12 +27,29 @@ NIB is a baby cursor with a big portfolio, built in 48 hours for the haX.baby **
 - **Touch & Accessibility Support:** Autonomous wandering mode on touch devices that follows taps; full keyboard `Tab` navigation; complete `prefers-reduced-motion` compliance.
 - **Scroll-Driven Origin Story:** 5-scene origin story with sticky stage, custom SVG illustrations, and an interactive scroll-synced journey route (`StoryRoute`).
 - **Project 1 — The Lost & Found:** 6 adoptable abandoned web artifacts (broken picture, dead link, 800x600 badge, etc.) with stories, heart stamps, adoption counter, and `localStorage` persistence.
-- **Project 2 — Pointer Playground:** 7 interactive pads proving every emotion (draggble stretch slider, sleep countdown pad, text typing pad with native cursor restoration, etc.).
+- **Project 2 — Pointer Playground:** 7 interactive pads proving every emotion (draggable stretch slider, sleep countdown pad, text typing pad with native cursor restoration, etc.).
 - **Project 3 — The Nibble Box:** 4-step, 4-bit Web Audio synthesizer and music box. Features pentatonic scale plucks, tempo slider, randomize, and URL shareable patterns (`/#box=XXXX`).
+- **Project 4 — Live Guestbook:** Interactive sticky-note pinboard for NIB with facial reactions, honeypot protection, human fill-timing verification, and profanity filtering.
+- **Real Visitor Odometer:** Retro mechanical rolling counter tracking visitors in real time with 30-minute deduplication.
 - **Web Audio Engine & Global Mute:** Synthesized browser sound effects with a master mute toggle that immediately silences every oscillator, click sound, music box, and Easter egg.
-- **Hidden Easter Egg:** Click the "Hello, my name is NIB" sticker 4 times to unlock NIB's first-ever message with falling bit rain and a synthesized lullaby.
+- **Hidden Easter Egg & Secret Finder Count:** Click the "Hello, my name is NIB" sticker 4 times to unlock NIB's first-ever message with falling bit rain, synthesized lullaby, and live secret-finder count.
 - **Sparkle Bit Trail & Adopt Cosmetics:** Fast cursor movement leaves a trail of binary bits; adopting objects rewards NIB with a tail bow and pink trail.
 - **Daylight & Dial-up Night Themes:** Retro beige plastic vs. glowing phosphor green night mode with zero flash.
+
+---
+
+## How the Backend Works
+
+The backend runs on Next.js Route Handlers with Upstash Redis (REST):
+- **Atomic Counters:** Incrementing visits and secret-finder milestones atomically via Redis `INCR`.
+- **Abuse & Spam Protection:**
+  - Strict same-origin validation (`sameOrigin`).
+  - Bot trap with hidden honeypot fields and human timing threshold verification (`t >= 2500ms`).
+  - Profanity and slur filtering using the `obscenity` engine.
+  - Strict URL regex blocker to prevent spam links.
+  - IP-hashed sliding window rate limiting via `@upstash/ratelimit`.
+- **Admin Moderation:** Cryptographically timing-safe authenticated route handler to purge abusive posts.
+- **Graceful Demo Fallback:** When credentials are unset, the system runs in an in-memory demo mode clearly marked with *"demo mode, not saved"* badges so the site never crashes.
 
 ---
 

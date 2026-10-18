@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { redis, demoStore, KEYS, ipHash, sameOrigin, NO_STORE } from "@/lib/server/store";
 
-export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "not allowed" }, { status: 403, headers: NO_STORE });

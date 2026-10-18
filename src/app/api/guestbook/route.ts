@@ -3,7 +3,6 @@ import { redis, demoStore, KEYS, entryKey, newId, ipHash, sameOrigin, NO_STORE, 
 import { validateEntry } from "@/lib/server/validate";
 import { guestbookLimit } from "@/lib/server/limits";
 
-export const dynamic = "force-dynamic";
 const asleep = () => NextResponse.json({ error: "the wall is asleep. try again later." }, { status: 503, headers: NO_STORE });
 
 export async function GET() {

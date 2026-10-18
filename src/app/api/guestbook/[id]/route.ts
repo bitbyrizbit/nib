@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { redis, demoStore, KEYS, entryKey, NO_STORE } from "@/lib/server/store";
 
-export const dynamic = "force-dynamic";
 
 function authorized(req: Request) {
   const key = process.env.ADMIN_KEY;
