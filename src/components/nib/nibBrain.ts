@@ -8,8 +8,8 @@ export type TailPoint = { x: number; y: number; px: number; py: number };
 export type Particle = { x: number; y: number; vy: number; life: number; ch: string };
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
-const TAIL_N = 9;
-const TAIL_L = 6;
+const TAIL_N = 7;
+const TAIL_L = 5.5;
 
 export class NibBrain {
   mode: "mouse" | "touch" = "mouse";
@@ -286,26 +286,49 @@ export class NibBrain {
     const a = this.angle.x, sx = this.scale * this.sx.x, sy = this.scale * this.sy.x;
     const rx = this.tipX + Math.cos(a) * REAR.x * sx - Math.sin(a) * REAR.y * sy;
     const ry = this.tipY + this.hop.x + Math.sin(a) * REAR.x * sx + Math.cos(a) * REAR.y * sy;
-    if (this.tail.length === 0) {
-      for (let i = 0; i < TAIL_N; i++) this.tail.push({ x: rx, y: ry + i * TAIL_L, px: rx, py: ry + i * TAIL_L });
+
+    const rest: { x: number; y: number }[] = [{ x: rx, y: ry }];
+    let cx = rx, cy = ry;
+    for (let i = 1; i < TAIL_N; i++) {
+      const ang = a + 1.25 - i * 0.34;
+      cx += Math.cos(ang) * TAIL_L;
+      cy += Math.sin(ang) * TAIL_L;
+      rest.push({ x: cx, y: cy });
     }
-    this.tail[0].x = rx; this.tail[0].y = ry;
+    if (this.tail.length === 0) {
+      rest.forEach((p) => this.tail.push({ x: p.x, y: p.y, px: p.x, py: p.y }));
+    }
+    this.tail[0].x = rx;
+    this.tail[0].y = ry;
+
     if (still) {
-      for (let i = 1; i < TAIL_N; i++) { const p = this.tail[i]; p.x = rx + i * TAIL_L * 0.7; p.y = ry + i * TAIL_L * 0.7; p.px = p.x; p.py = p.y; }
+      for (let i = 1; i < TAIL_N; i++) {
+        const p = this.tail[i];
+        p.x = rest[i].x;
+        p.y = rest[i].y;
+        p.px = p.x;
+        p.py = p.y;
+      }
       return;
     }
-    const g = (this.mood === "asleep" ? 1400 : 700) * dt * dt;
+
+    const g = (this.mood === "asleep" ? 900 : 120) * dt * dt;
+    const pull = this.mood === "asleep" ? 0.03 : 0.12;
     for (let i = 1; i < TAIL_N; i++) {
       const p = this.tail[i];
-      const vx = (p.x - p.px) * 0.92, vy = (p.y - p.py) * 0.92;
-      p.px = p.x; p.py = p.y; p.x += vx; p.y += vy + g;
+      const vx = (p.x - p.px) * 0.9, vy = (p.y - p.py) * 0.9;
+      p.px = p.x;
+      p.py = p.y;
+      p.x += vx + (rest[i].x - p.x) * pull;
+      p.y += vy + (rest[i].y - p.y) * pull + g;
     }
-    for (let it = 0; it < 3; it++) {
+    for (let it = 0; it < 2; it++) {
       for (let i = 1; i < TAIL_N; i++) {
         const a0 = this.tail[i - 1], b0 = this.tail[i];
         const dx = b0.x - a0.x, dy = b0.y - a0.y, d = Math.hypot(dx, dy) || 1;
         const k = (d - TAIL_L) / d;
-        b0.x -= dx * k; b0.y -= dy * k;
+        b0.x -= dx * k;
+        b0.y -= dy * k;
       }
     }
   }

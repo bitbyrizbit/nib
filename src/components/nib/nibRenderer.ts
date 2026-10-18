@@ -41,16 +41,24 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
 
-  if (b.tail.length > 1) {
-    ctx.beginPath();
-    ctx.moveTo(b.tail[0].x, b.tail[0].y);
-    for (let i = 1; i < b.tail.length; i++) ctx.lineTo(b.tail[i].x, b.tail[i].y);
+  const n = b.tail.length;
+  if (n > 1) {
     ctx.strokeStyle = line;
-    ctx.lineWidth = 7;
-    ctx.stroke();
+    for (let i = 1; i < n; i++) {
+      ctx.beginPath();
+      ctx.moveTo(b.tail[i - 1].x, b.tail[i - 1].y);
+      ctx.lineTo(b.tail[i].x, b.tail[i].y);
+      ctx.lineWidth = 3 + 5 * (1 - i / n);
+      ctx.stroke();
+    }
     ctx.strokeStyle = fill;
-    ctx.lineWidth = 3.5;
-    ctx.stroke();
+    for (let i = 1; i < n; i++) {
+      ctx.beginPath();
+      ctx.moveTo(b.tail[i - 1].x, b.tail[i - 1].y);
+      ctx.lineTo(b.tail[i].x, b.tail[i].y);
+      ctx.lineWidth = 1.2 + 3.2 * (1 - i / n);
+      ctx.stroke();
+    }
   }
 
   if (b.bow && b.tail.length > 0) {
