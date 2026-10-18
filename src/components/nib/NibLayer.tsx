@@ -4,6 +4,7 @@ import { NibBrain } from "./nibBrain";
 import { drawNib } from "./nibRenderer";
 import { classify } from "./classify";
 import { nib, nibBus } from "./nibBus";
+import { loadJSON } from "@/lib/storage";
 
 const toRect = (el: Element) => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
 
@@ -22,6 +23,15 @@ export default function NibLayer() {
     const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
     brain.width = innerWidth; brain.height = innerHeight;
     brain.setMode(fine ? "mouse" : "touch");
+
+    const updateCosmetics = (count?: number) => {
+      const n = typeof count === "number" ? count : loadJSON<string[]>("nib:adopted", []).length;
+      brain.bow = n >= 3;
+      brain.trailPink = n >= 6;
+    };
+    updateCosmetics();
+    const onAdopted = (e: Event) => updateCosmetics((e as CustomEvent<number>).detail);
+    window.addEventListener("nib:adopted", onAdopted);
 
     let hoverEl: Element | null = null;
     let keyboard = false;
@@ -117,6 +127,7 @@ export default function NibLayer() {
       root.removeEventListener("pointerleave", onLeave);
       document.removeEventListener("visibilitychange", onVis);
       rm.removeEventListener("change", onRm);
+      window.removeEventListener("nib:adopted", onAdopted);
       root.classList.remove("nib-on");
       nib.brain = null;
     };

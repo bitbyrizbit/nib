@@ -5,6 +5,7 @@ export type Mood = "idle" | "curious" | "read" | "sleepy" | "asleep" | "pout" | 
 export type Kind = "none" | "link" | "text" | "disabled" | "drag" | "native";
 export type Rect = { x: number; y: number; w: number; h: number };
 export type TailPoint = { x: number; y: number; px: number; py: number };
+export type Particle = { x: number; y: number; vy: number; life: number; ch: string };
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const TAIL_N = 9;
@@ -35,9 +36,14 @@ export class NibBrain {
   eyeX = makeSpring(0, 120, 16);
   eyeY = makeSpring(0, 120, 16);
   tail: TailPoint[] = [];
+  particles: Particle[] = [];
+  bow = false;
+  trailPink = false;
   onMood: ((m: Mood) => void) | null = null;
   onWake: (() => void) | null = null;
   onClick: (() => void) | null = null;
+
+  private lastSpawn = 0;
 
   private px = -200;
   private py = -200;
@@ -113,6 +119,24 @@ export class NibBrain {
 
     this.vx += ((this.tipX - prevX) / dt - this.vx) * 0.25;
     this.vy += ((this.tipY - prevY) / dt - this.vy) * 0.25;
+
+    // particles trail
+    const speed = Math.hypot(this.vx, this.vy);
+    if (!this.reduced && this.mode === "mouse" && this.alpha > 0.5 && speed > 600 && this.now - this.lastSpawn > 0.04 && this.particles.length < 60) {
+      this.lastSpawn = this.now;
+      this.particles.push({
+        x: this.tipX + (Math.random() - 0.5) * 12,
+        y: this.tipY + (Math.random() - 0.5) * 12,
+        vy: 30 + Math.random() * 50,
+        life: 0.9,
+        ch: Math.random() < 0.5 ? "0" : "1",
+      });
+    }
+    for (const p of this.particles) {
+      p.y += p.vy * dt;
+      p.life -= dt;
+    }
+    this.particles = this.particles.filter((p) => p.life > 0);
 
     // mood
     const idle = this.now - this.lastActive;

@@ -2,6 +2,17 @@ import type { NibBrain } from "./nibBrain";
 import { BODY, EYES, EYE_R, MOUTH, S } from "./nibShape";
 
 export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
+  if (b.particles.length) {
+    ctx.save();
+    ctx.font = "18px VT323, monospace";
+    for (const p of b.particles) {
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = b.trailPink ? "#ff4fa3" : b.night ? "#7dffb0" : "#1c1b18";
+      ctx.fillText(p.ch, p.x, p.y);
+    }
+    ctx.restore();
+  }
+
   if (b.alpha < 0.02) return;
   const night = b.night;
   const line = night ? "#0a0d1c" : "#1c1b18";
@@ -18,6 +29,37 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
     for (let i = 1; i < b.tail.length; i++) ctx.lineTo(b.tail[i].x, b.tail[i].y);
     ctx.strokeStyle = line; ctx.lineWidth = 7; ctx.stroke();
     ctx.strokeStyle = fill; ctx.lineWidth = 3.5; ctx.stroke();
+  }
+
+  if (b.bow && b.tail.length > 0) {
+    const tip = b.tail[b.tail.length - 1];
+    ctx.save();
+    ctx.translate(tip.x, tip.y);
+    ctx.fillStyle = "#e8412f";
+    ctx.strokeStyle = line;
+    ctx.lineWidth = 1;
+    // Left wing
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-7, -4);
+    ctx.lineTo(-7, 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // Right wing
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(7, -4);
+    ctx.lineTo(7, 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // Knot
+    ctx.beginPath();
+    ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
   }
 
   ctx.translate(b.tipX, b.tipY + b.hop.x);
