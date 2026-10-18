@@ -2,7 +2,15 @@
 import { useEffect, useRef, useState } from "react";
 import { playLullaby, stopAll } from "@/lib/audio";
 
-export default function EggModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+export default function EggModal({
+  open,
+  onClose,
+  found,
+}: {
+  open: boolean;
+  onClose: () => void;
+  found?: number | null;
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   const [bits, setBits] = useState<{ ch: string; left: number; delay: number }[]>([]);
 
@@ -53,6 +61,9 @@ export default function EggModal({ open, onClose }: { open: boolean; onClose: ()
           <p>i think i am a thing now.</p>
           <p className="egg__signature">- nib, 0101</p>
           <p className="hint">Half a byte. Whole lot of world.</p>
+          {found !== null && found !== undefined && (
+            <p className="hint egg__found">you are one of {found} visitors who found this.</p>
+          )}
         </div>
         <button type="button" className="tb-btn egg__close" autoFocus onClick={() => ref.current?.close()}>
           close

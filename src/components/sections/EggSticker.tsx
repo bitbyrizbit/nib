@@ -7,6 +7,7 @@ export default function EggSticker() {
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [n, setN] = useState(0);
   const [open, setOpen] = useState(false);
+  const [found, setFound] = useState<number | null>(null);
 
   const onClick = () => {
     count.current += 1;
@@ -22,6 +23,17 @@ export default function EggSticker() {
       setOpen(true);
       try {
         localStorage.setItem("nib:egg", "1");
+        if (!localStorage.getItem("nib:eggPosted")) {
+          fetch("/api/egg", { method: "POST" })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((d) => {
+              if (d && !d.demo) {
+                localStorage.setItem("nib:eggPosted", "1");
+                setFound(d.count);
+              }
+            })
+            .catch(() => {});
+        }
       } catch {}
       window.dispatchEvent(new CustomEvent("nib:egg"));
     }
@@ -39,7 +51,7 @@ export default function EggSticker() {
       >
         Hello, my name is NIB
       </button>
-      <EggModal open={open} onClose={() => setOpen(false)} />
+      <EggModal open={open} onClose={() => setOpen(false)} found={found} />
     </>
   );
 }
