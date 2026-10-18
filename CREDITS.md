@@ -20,7 +20,7 @@ Every font, library, sound generator, and asset used in NIB is fully open source
 - No third-party images, Pip assets, or haX.baby assets were used. All animations, icons, badges, and story scenes are handcrafted code.
 
 ## Audio Engine
-- **Web Audio API**: 100% synthesised in-browser using procedural oscillators, envelopes, and biquad filters. Zero audio files, samples, or external media recordings.
+- **Web Audio API**: 100% synthesised in-browser using procedural oscillators, envelopes, and biquad filters. Includes procedural DTMF dialing and modem handshake simulation, harmonic arpeggios, and responsive clicks/pops. Zero audio files, samples, or external media recordings.
 
 ## AI Disclosure
 - Built with assistance from AI coding tools (Claude / Gemini), with all architecture, code, design, and logic reviewed, verified, and owned by the creator.

@@ -20,8 +20,14 @@ Built for the **haX.baby "Baby's First Website"** hackathon (Track 2: Your Own B
    - **Pointer Playground:** Test every mood pad (stretch the slider, wait for a nap, type to NIB).
    - **Nibble Box:** A 4-step, 4-bit Web Audio synth. Click pads to make a tune and copy a shareable `#box=XXXX` URL.
    - **Live Guestbook:** Sign the persistent sticky-note wall with an emotion.
-6. **Find the hidden Easter egg:** Click the "Hello, my name is NIB" sticker 4 times rapidly.
-7. **Mobile:** On touch devices, NIB autonomously wanders and walks to wherever you tap.  
+   - **Take NIB Home:** Download NIB as vector SVG, transparent PNG (64, 128, 256px), or an authentic Windows mouse cursor (`nib.cur`).
+6. **Start Menu Toys:**
+   - **Dial-up Modem:** Click `nib ▸` in the taskbar and select `dial up...` to hear an authentic procedural 56k modem handshake ping the real backend.
+   - **Amber Nightlight:** Toggle the lamp in the taskbar or pad 07 to dim the desktop into a cozy flashlight halo revealing hidden constellation art.
+7. **Find the hidden Easter eggs:**
+   - Click the "Hello, my name is NIB" sticker 4 times rapidly for the birth moment.
+   - Enter the Konami Code (`↑ ↑ ↓ ↓ ← → ← → B A`) on desktop to trigger Turbo mode!
+8. **Mobile:** On touch devices, NIB autonomously wanders and walks to wherever you tap.  
    *(iPhone note: turn off hardware silent switch to hear audio, and tap once to start).*
 
 ---

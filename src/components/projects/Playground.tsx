@@ -184,7 +184,7 @@ export default function Playground() {
 
           {/* Pad 7: Night pad (mood / palette shift) */}
           <div className="pg-pad pg-pad--night">
-            <span className="pg-label">pad 07 · dial-up night shift</span>
+            <span className="pg-label">pad 07 · nightlight shift</span>
             <button
               type="button"
               className="tb-btn pg-night-btn"
@@ -192,9 +192,9 @@ export default function Playground() {
               onClick={() => setTheme(night ? "day" : "night")}
             >
               <span className="tb-led" aria-hidden="true" />
-              {night ? "switch to daylight" : "dial up the night"}
+              {night ? "switch to daylight" : "turn on nightlight"}
             </button>
-            <span className="pg-hint">green phosphor glow &amp; gets sleepy sooner</span>
+            <span className="pg-hint">warm amber glow &amp; gets sleepy sooner</span>
           </div>
         </div>
 
