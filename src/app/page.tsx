@@ -1,4 +1,5 @@
 import Taskbar from "@/components/shell/Taskbar";
+import ChaosControls from "@/components/shell/ChaosControls";
 import Hero from "@/components/sections/Hero";
 import Story from "@/components/sections/Story";
 import Projects from "@/components/sections/Projects";
@@ -15,6 +16,7 @@ export default function Page() {
         <About />
       </main>
       <Footer />
+      <ChaosControls />
       <Taskbar />
     </>
   );
