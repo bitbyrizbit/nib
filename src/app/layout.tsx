@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bagel_Fat_One, Pixelify_Sans, VT323 } from "next/font/google";
 import NibLayer from "@/components/nib/NibLayer";
+import NightLight from "@/components/nib/NightLight";
 import NibVoice from "@/components/nib/NibVoice";
 import SoundEffects from "@/components/shell/SoundEffects";
 import "./globals.css";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <NibLayer />
+        <NightLight />
         <NibVoice />
         <SoundEffects />
       </body>
