@@ -1,5 +1,6 @@
 import Window from "@/components/shell/Window";
 import BitLights from "@/components/ui/BitLights";
+import EggSticker from "@/components/sections/EggSticker";
 
 export default function Hero() {
   return (
@@ -16,7 +17,7 @@ export default function Hero() {
         <p className="tagline">Click gently. I&apos;m new here.</p>
         <p className="descriptor">A newborn cursor discovering the internet, one click at a time.</p>
         <BitLights />
-        <div className="sticker" data-sticker>Hello, my name is NIB</div>
+        <EggSticker />
         <p className="hint">move your mouse. or tap anywhere. nib will find you.</p>
       </div>
     </Window>
