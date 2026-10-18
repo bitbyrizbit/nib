@@ -1,4 +1,5 @@
 import Taskbar from "@/components/shell/Taskbar";
+import DesktopIcons from "@/components/shell/DesktopIcons";
 import ChaosControls from "@/components/shell/ChaosControls";
 import Hero from "@/components/sections/Hero";
 import Story from "@/components/sections/Story";
@@ -10,6 +11,7 @@ import Footer from "@/components/sections/Footer";
 export default function Page() {
   return (
     <>
+      <DesktopIcons />
       <main className="main">
         <Hero />
         <Story />

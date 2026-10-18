@@ -129,6 +129,18 @@ export default function NibLayer() {
       brain.update(dt);
       ctx.clearRect(0, 0, innerWidth, innerHeight);
       drawNib(ctx, brain);
+
+      // Hero arrow looks at NIB (Step 7.3)
+      if (!rm.matches && document.documentElement.dataset.fx !== "off") {
+        const arrowEl = document.getElementById("hero-arrow");
+        if (arrowEl && brain.alpha > 0.2) {
+          const rect = arrowEl.getBoundingClientRect();
+          const ax = rect.left + rect.width / 2;
+          const ay = rect.top + rect.height / 2;
+          const angle = (Math.atan2(brain.tipY - ay, brain.tipX - ax) * 180) / Math.PI;
+          arrowEl.style.setProperty("--look", `${angle.toFixed(1)}deg`);
+        }
+      }
     };
     const onVis = () => {
       if (document.hidden) cancelAnimationFrame(raf);
