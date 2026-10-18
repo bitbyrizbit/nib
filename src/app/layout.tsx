@@ -10,8 +10,34 @@ const ui = Pixelify_Sans({ subsets: ["latin"], variable: "--font-ui-next", displ
 const mono = VT323({ weight: "400", subsets: ["latin"], variable: "--font-mono-next", display: "swap" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://meet-nib.vercel.app"),
   title: "nib · baby's first cursor",
   description: "Click gently. I'm new here. A newborn cursor discovering the internet, one click at a time.",
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "nib · baby's first cursor",
+    description: "Click gently. I'm new here. A newborn cursor discovering the internet, one click at a time.",
+    url: "https://meet-nib.vercel.app",
+    siteName: "NIB",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "nib · baby's first cursor",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "nib · baby's first cursor",
+    description: "Click gently. I'm new here. A newborn cursor discovering the internet, one click at a time.",
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
