@@ -553,7 +553,7 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   height: 1.2em;
   overflow: hidden;
   background: #000;
-  color: #7dffb0;
+  color: var(--phosphor);
   text-align: center;
 }
 .odo__strip {
@@ -692,10 +692,10 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   transition: transform 0.2s ease;
 }
 [data-theme="night"] .gb__card {
-  background: #23221a;
-  color: #e2decb;
-  border-color: #4a4637;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  background: #261c14;
+  color: #ffe3b8;
+  border-color: #5c3e28;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
 }
 .gb__msg {
   font-family: var(--font-ui);
@@ -711,8 +711,52 @@ html.nib-on input[type="text"], html.nib-on textarea { cursor: text !important; 
   padding-top: var(--s1);
 }
 [data-theme="night"] .gb__meta {
-  color: #a79f86;
-  border-top-color: rgba(255, 255, 255, 0.15);
+  color: #d8b98c;
+  border-top-color: rgba(255, 179, 71, 0.2);
+}
+
+/* Night Wallpaper & Vignette (Step 8.2) */
+[data-theme="night"] body {
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 18%, #ffe3b8 98%, transparent),
+    radial-gradient(1.2px 1.2px at 33% 72%, #ffe3b8 98%, transparent),
+    radial-gradient(1.8px 1.8px at 61% 24%, #ffe3b8 98%, transparent),
+    radial-gradient(1.2px 1.2px at 82% 58%, #ffe3b8 98%, transparent),
+    radial-gradient(1.4px 1.4px at 47% 90%, #ffe3b8 98%, transparent),
+    radial-gradient(var(--dither) 1.2px, transparent 1.4px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 7px 7px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, scroll;
+}
+
+[data-theme="night"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8000;
+  background: radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* Nightlight & Dream Layer (Step 8.4) */
+.night-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  background: radial-gradient(circle 280px at var(--nx, 50%) var(--ny, 50%), rgba(255, 190, 90, 0.2), rgba(255, 190, 90, 0.06) 55%, transparent 75%);
+  mix-blend-mode: screen;
+}
+.dream-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8999;
+  -webkit-mask-image: radial-gradient(circle 170px at var(--nx, 50%) var(--ny, 50%), #000 0, transparent 100%);
+  mask-image: radial-gradient(circle 170px at var(--nx, 50%) var(--ny, 50%), #000 0, transparent 100%);
+}
+.dream-svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* Chaos Mode */
