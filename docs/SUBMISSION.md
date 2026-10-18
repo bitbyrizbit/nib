@@ -20,21 +20,13 @@
 
 ## 3. The Story Write-Up (Submission Essay)
 
-> Most website characters live *inside* the page. NIB is the interface itself.
+> NIB is a baby cursor. Most characters live on a page; NIB lives in the interface itself. The tip of the arrow is your real pointer, so when you click, you are holding NIB. This is NIB's first website, which is why it fits "Baby's First Website".
 >
-> The tip of NIB is locked to your actual hardware pointer with zero lag or smoothing, so when you click, you are literally holding NIB by the hand. The haX.baby theme ("Baby's First Website") inspired a simple question: what if a baby cursor had to build its own first website out of the bits and scraps it found while learning to click?
+> NIB is four bits old (half a byte, a nibble), and that number shows up everywhere: four lights show its mood, the Nibble Box is a four-step music toy whose pattern is four hex digits you can share as a link, and the story grows NIB from four blinking bits into a full cursor.
 >
-> NIB is four bits old — a nibble. That 4-bit motif is woven throughout the entire experience:
-> 1. Four telemetry bits light up on the screen in real-time to reflect NIB's mood state.
-> 2. The **Nibble Box** is a 4-step, 4-bit Web Audio synthesizer where each column represents one nibble (`0` to `F`), producing a 16-bit musical pattern shareable via a single 4-hex-digit link (`#box=A5C3`).
-> 3. The scroll-driven origin story follows NIB from four isolated binary bits blinking in the dark, through its first click, its first hover transformation into a hand, its accidental tumble onto a 404 error page, and finally building its 1999-style desktop home.
+> I'm proudest of the cursor engine, written from scratch with springs, a tail simulation and a mood system. NIB leans toward links, squints at text, pouts at locked things, gets dizzy if you scroll too fast, and falls asleep if you stop. At night the page goes dark and NIB glows like a nightlight, lighting up hidden drawings. There is also a real guestbook and visitor counter with rate limiting and spam filtering, a dial-up modem toy, and a button that lets you download NIB as a cursor. NIB remembers returning visitors using only the browser's local storage, and nothing is sent anywhere.
 >
-> Under the playful retro aesthetics lies solid engineering:
-> - A handcrafted canvas physics engine featuring spring dynamics, Verlet integration on the tail, and an autonomous wandering mode on mobile touch screens.
-> - A procedural Web Audio API engine that generates all bleeps, clicks, synth notes, and lullabies in real time without a single external audio sample.
-> - A live backend on Upstash Redis supporting atomic visitor counts with 30-minute deduplication, a persistent sticky-note guestbook with honeypot and profanity filtering, and an Easter egg secret-finder counter.
->
-> All artwork and animations are 100% original code (SVG, Canvas, CSS), without any borrowed IP or external UI kits.
+> I used AI coding tools while building, and I reviewed and own all of the code. All art is original (SVG, CSS, canvas), all sound is synthesised in the browser, and every font and library is credited in the footer.
 
 ---
 

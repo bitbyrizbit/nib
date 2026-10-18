@@ -15,9 +15,11 @@ export default function EggModal({
   const [bits, setBits] = useState<{ ch: string; left: number; delay: number }[]>([]);
 
   useEffect(() => {
-    if (open) {
-      playLullaby();
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!open) return;
+    playLullaby();
+    let raf = 0;
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      raf = requestAnimationFrame(() => {
         setBits(
           Array.from({ length: 28 }, () => ({
             ch: Math.random() < 0.5 ? "0" : "1",
@@ -25,10 +27,12 @@ export default function EggModal({
             delay: Math.random() * 2.5,
           }))
         );
-      }
-    } else {
-      setBits([]);
+      });
     }
+    return () => {
+      cancelAnimationFrame(raf);
+      setBits([]);
+    };
   }, [open]);
 
   const handleClose = () => {
