@@ -225,7 +225,7 @@ Click or tap NIB's sticker **four times** (four bits). A bit flips, NIB's first-
 
 - Not the host's cream and berry look, and not generic pastel "cute".
 - A **lovingly lived-in 1999 desktop**: window chrome, a taskbar, "under construction", 88x31 webring buttons, a visitor counter, used with taste, not as parody.
-- Daylight: warm beige plastic, ink black, signal red, "nib" yellow. Night: deep navy-black, phosphor green, hot pink.
+- Daylight: warm beige plastic, ink black, signal red, "nib" yellow. Night: warm amber nightlight (dark room lit by NIB flashlight, amber phosphor, hot pink accent).
 - Type: a pixel face for system text (OFL fonts such as VT323, Silkscreen or Pixelify Sans) paired with a characterful display face. Final fonts are locked at the design-token step.
 
 ### Responsive Chaos Mode (staged, +5 points)

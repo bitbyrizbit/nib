@@ -17,7 +17,7 @@ export default function StageArt({ scene, local }: { scene: number; local: numbe
         <rect x="206" y="138" width="28" height="28" fill="#2b2820" stroke="#4a4637" strokeWidth="2" rx="2" />
         {/* Bit 4: 1 */}
         <rect x="246" y="138" width="28" height="28" fill="#ffd23f" stroke="#1c1b18" strokeWidth="2" rx="2" opacity={0.6 + Math.sin(local * Math.PI * 2) * 0.4} />
-        <text x="200" y="210" textAnchor="middle" fill="#7dffb0" fontFamily="var(--font-mono)" fontSize="16">
+        <text x="200" y="210" textAnchor="middle" fill="var(--phosphor)" fontFamily="var(--font-mono)" fontSize="16">
           waiting for a click...
         </text>
       </g>

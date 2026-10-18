@@ -24,18 +24,18 @@
 }
 
 [data-theme="night"] {
-  --ink: #0a0d1c;
-  --line: #7dffb0;
-  --plastic: #1b2036;
-  --plastic-hi: #2c3354;
-  --plastic-lo: #0f1226;
-  --wallpaper: #0a0d1c;
-  --dither: rgba(125, 255, 176, 0.1);
-  --signal: #ff4fa3;
-  --phosphor: #7dffb0;
-  --title-bg: #7dffb0;
-  --title-fg: #0a0d1c;
-  --text: #d7f5e3;
-  --text-soft: #9bb8a8;
+  --ink: #0f0b07;
+  --line: #ffb347;
+  --plastic: #261c14;
+  --plastic-hi: #3a2b1e;
+  --plastic-lo: #150f0a;
+  --wallpaper: #120d09;
+  --dither: rgba(255, 179, 71, 0.08);
+  --signal: #ff5e9c;
+  --phosphor: #ffb347;
+  --title-bg: #ffb347;
+  --title-fg: #1a1109;
+  --text: #ffe3b8;
+  --text-soft: #d8b98c;
   --shadow-c: #000000;
 }
