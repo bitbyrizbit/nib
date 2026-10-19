@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Odometer from "@/components/ui/Odometer";
 import { useVisits } from "@/lib/useVisits";
+import { resetTrust } from "@/lib/trust";
 
 export default function Footer() {
   const { count, demo } = useVisits();
@@ -58,6 +59,7 @@ export default function Footer() {
                 localStorage.removeItem("nib:egg");
                 localStorage.removeItem("nib:eggPosted");
                 localStorage.removeItem("nib:lastVisit");
+                resetTrust();
                 setForgetMsg("forgotten.");
                 setTimeout(() => setForgetMsg(""), 3000);
               }

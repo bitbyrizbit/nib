@@ -6,6 +6,7 @@ export const NAV: NavItem[] = [
   { id: "nibble-box", label: "nibble box" },
   { id: "guestbook", label: "guestbook" },
   { id: "about", label: "about nib" },
+  { id: "diary", label: "nib's diary" },
   { id: "take-home", label: "take nib home" },
 ];
 

@@ -1253,3 +1253,123 @@ html:not([data-fx="off"]) .birth span:nth-child(odd) {
 @keyframes birth-blink {
   50% { opacity: 0.2; }
 }
+
+/* Taskbar trust meter (Phase 11.3) */
+.tb-trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--s2);
+}
+.tb-trust__pips {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.tb-trust__pip {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--line);
+  background: var(--plastic-lo);
+  transition: background 0.2s;
+}
+.tb-trust__pip--lit {
+  background: var(--nib);
+}
+.tb-trust__label {
+  font-family: var(--font-mono);
+  font-size: 16px;
+}
+@media (max-width: 520px) {
+  .tb-trust__label {
+    display: none;
+  }
+}
+
+/* Diary section (Phase 11.4) */
+.diary-section {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  margin-top: var(--s5);
+}
+.diary-section .window {
+  max-width: 680px;
+  width: 100%;
+}
+.diary {
+  list-style: none;
+  padding: 0;
+  margin: var(--s3) 0;
+  display: grid;
+  gap: var(--s4);
+}
+.diary__page {
+  font-family: var(--font-mono);
+  background: var(--surface);
+  border: 2px solid var(--line);
+  padding: var(--s3) var(--s4);
+  position: relative;
+  box-shadow: 3px 3px 0 var(--shadow-c);
+  /* Ruled lines pattern */
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 23px,
+    var(--plastic-lo) 24px
+  );
+  line-height: 24px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.diary__page:nth-child(odd) {
+  transform: rotate(-0.75deg);
+}
+.diary__page:nth-child(even) {
+  transform: rotate(0.85deg);
+}
+.diary__page h3 {
+  margin: 0 0 var(--s1) 0;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+.diary__text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--text);
+}
+.diary__page[data-locked="true"] {
+  opacity: 0.65;
+  filter: grayscale(0.2);
+}
+.diary__locked {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+.diary__locked-bits {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.diary__locked-bit {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--line);
+  background: var(--plastic-lo);
+}
+.diary__locked-bit[data-on="true"] {
+  background: var(--nib);
+}
+.diary__footer-note {
+  margin-top: var(--s2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .diary__page:nth-child(odd),
+  .diary__page:nth-child(even) {
+    transform: none;
+  }
+}
