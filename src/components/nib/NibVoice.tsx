@@ -82,21 +82,54 @@ export default function NibVoice() {
       say("level up.", true);
     };
 
+    const lastFlinchRef = { current: 0 };
+    const onFlinch = () => {
+      const now = performance.now() / 1000;
+      if (now - lastFlinchRef.current < 10) return;
+      lastFlinchRef.current = now;
+      say("ow. gently?", true);
+    };
+
+    const onPip = (e: Event) => {
+      const p = (e as CustomEvent<number>).detail;
+      const lines: Record<number, string> = {
+        1: "...hi.",
+        2: "you're nice.",
+        3: "i like it here.",
+        4: "i trust you.",
+      };
+      if (lines[p]) say(lines[p]);
+    };
+
+    const onDiary = () => {
+      say("new page in my diary.");
+    };
+
     window.addEventListener("nib:adopted", onAdopt);
     window.addEventListener("nib:egg", onEgg);
     window.addEventListener("nib:theme", onTheme);
     window.addEventListener("nib:back", onBack);
     window.addEventListener("nib:turbo", onTurbo);
+    window.addEventListener("nib:flinch", onFlinch);
+    window.addEventListener("nib:pip", onPip);
+    window.addEventListener("nib:diary", onDiary);
 
     const hi = setTimeout(() => {
       if (!seenRef.current.has("hi")) {
         seenRef.current.add("hi");
         const vis = touchVisitor();
         if (vis.visits > 1) {
+          const h = new Date().getHours();
+          let base = "hi again.";
+          if (h >= 0 && h < 5) base = "you're up late too.";
+          else if (h >= 5 && h < 12) base = "good morning.";
+          else if (h >= 12 && h < 18) base = "hi again.";
+          else base = "good evening.";
+
           if (vis.name) {
-            say(`hi again, ${vis.name}.`);
+            say(`${base.replace(/\.$/, "")}, ${vis.name}.`);
           } else {
-            say("hi again. you came back.");
+            say(base);
           }
         } else {
           say("hi. be gentle.");
@@ -124,6 +157,9 @@ export default function NibVoice() {
       window.removeEventListener("nib:theme", onTheme);
       window.removeEventListener("nib:back", onBack);
       window.removeEventListener("nib:turbo", onTurbo);
+      window.removeEventListener("nib:flinch", onFlinch);
+      window.removeEventListener("nib:pip", onPip);
+      window.removeEventListener("nib:diary", onDiary);
       if (nib.brain) nib.brain.onWake = null;
     };
   }, [text]);
