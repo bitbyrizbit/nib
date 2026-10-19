@@ -1,72 +1,89 @@
 # nib
 
-> Click gently. I'm new here.
+> click gently. i'm new here.
 
-NIB is a baby cursor: a newborn pointer discovering the internet, one click at a time.  
-Built for the **haX.baby "Baby's First Website"** hackathon (Track 2: Your Own Baby).
+NIB is a baby cursor living in the interface itself. The tip of the arrow is your real pointer, so whenever you click on this site, you are holding NIB.
 
-**Live Site:** [https://meet-nib.vercel.app/](https://meet-nib.vercel.app/)
+Built for the haX.baby hackathon (Track 2: original character).
 
----
-
-## Try This (60 Seconds)
-
-1. **Move your mouse:** That arrow is NIB, and its tip is locked to your real pointer with zero lag or smoothing.
-2. **Hover around:** Hover a link, a text paragraph, then a locked button. NIB reacts with unique facial expressions and posture for each.
-3. **Click anywhere:** Watch the squash, bounce, and lean physics.
-4. **Scroll the story:** Scroll down to watch NIB grow from four blinking binary bits into a full living cursor.
-5. **Explore the projects:**
-   - **Lost & Found:** Adopt 6 abandoned relics of the 90s web.
-   - **Pointer Playground:** Test every mood pad (stretch the slider, wait for a nap, type to NIB).
-   - **Nibble Box:** A 4-step, 4-bit Web Audio synth. Click pads to make a tune and copy a shareable `#box=XXXX` URL.
-   - **Live Guestbook:** Sign the persistent sticky-note wall with an emotion.
-   - **Take NIB Home:** Download NIB as vector SVG, transparent PNG (64, 128, 256px), or an authentic Windows mouse cursor (`nib.cur`).
-6. **Start Menu Toys:**
-   - **Dial-up Modem:** Click `nib ▸` in the taskbar and select `dial up...` to hear an authentic procedural 56k modem handshake ping the real backend.
-   - **Amber Nightlight:** Toggle the lamp in the taskbar or pad 07 to dim the desktop into a cozy flashlight halo revealing hidden constellation art.
-7. **Find the hidden Easter eggs:**
-   - Click the "Hello, my name is NIB" sticker 4 times rapidly for the birth moment.
-   - Enter the Konami Code (`↑ ↑ ↓ ↓ ← → ← → B A`) on desktop to trigger Turbo mode!
-8. **Mobile:** On touch devices, NIB autonomously wanders and walks to wherever you tap.  
-   *(iPhone note: turn off hardware silent switch to hear audio, and tap once to start).*
+Live site: [meet-nib.vercel.app](https://meet-nib.vercel.app)
 
 ---
 
-## Character Sheet (Track 2: Original Baby)
+## the backstory
 
-- **Name:** NIB
-- **What it is:** A baby cursor. A soft arrow with a lopsided tip, two big eyes, and a tail that never sits still. Four bits old (half a byte / a nibble). Curious, clumsy, sincere, and easily excited.
-- **What it does:** Makes tiny web toys and tools, and adopts abandoned pieces of the internet.
-- **Its story:** Born as a nibble in the dark (`0101`). Learned to click, learned to love links, got lost on a 404, then built a crooked desktop home from what it found.
-- **Tagline:** *Click gently. I'm new here.*
+The hackathon theme asked for "Baby's First Website". Most projects build a site for an infant, or style a page like a toddler drew on it with crayons.
+
+I wanted the baby to be the thing you use to touch the web: the pointer itself. NIB was born four bits old (half a byte, a nibble) inside an empty 640 by 480 viewport. It learned what a link was, got lost on a broken page, collected abandoned 90s web artifacts, and built a crooked desktop home out of what it found.
 
 ---
 
-## What is Real (Zero Faking)
+## what makes nib alive
 
-- **Hand-written Canvas Physics Engine:** Real-time spring physics, Verlet-tail simulation, and mood state machine. Built entirely with vanilla TypeScript and HTML5 Canvas — zero animation frameworks or UI kits.
-- **Web Audio API Synth:** Procedural audio synthesis without any audio files, MP3s, or external sound samples. Features a master mute switch that silences all sources.
-- **Real Upstash Redis Backend:** Live atomic visitor counter, secret-finder milestone tracker, and guestbook wall with rate limiting and profanity protection. Runs in an in-memory fallback demo mode if credentials are unset.
-- **Aliveness & Local Memory:** NIB remembers returning visitors and greets them by name using the browser's local storage. Nothing is sent anywhere. Includes an interactive `forget me` button in the footer to reset all stored state at any time.
+NIB is drawn on a full-screen canvas sitting right on top of the DOM. Its tip is locked to your mouse coordinates with zero smoothing and zero delay, so clicks always land on the exact pixel you intended.
 
----
+Behind that locked tip, everything else breathes:
+- A spring simulation drives NIB's body squash, stretch, and lean angles based on pointer velocity.
+- A seven-segment Verlet integration tail curls and drags naturally behind the arrow as you move.
+- A mood state machine switches between nine distinct emotional states (idle, curious, reading, happy, pouting, grab, sleepy, asleep, and flinching) based on what you hover and how you click.
+- Four mood bits light up in real time to show NIB's internal 4-bit state in binary and hexadecimal.
+- An amber nightlight mode dims the screen into a flashlight halo that follows NIB, revealing hidden constellation doodles drawn across the background.
+- A trust system measures your click cadence. Clicking slowly and gently builds trust (+3), while clicking four times in 1.5 seconds makes NIB flinch and lose trust (-6).
 
-## How the Backend Works
-
-Next.js Route Handlers powered by Upstash Redis (REST):
-- **Atomic Counters:** Real-time visitor counts and secret-finder milestones incremented atomically via Redis `INCR`.
-- **Visitor Deduplication:** 30-minute unique window tracking via IP hashes.
-- **Abuse & Spam Protection:**
-  - Same-origin header validation.
-  - Hidden honeypot trap and minimum human typing threshold (`t >= 2500ms`).
-  - Profanity filtering with the `obscenity` engine.
-  - Spam URL detection rejecting external links.
-  - IP sliding-window rate limiting via `@upstash/ratelimit`.
-- **Admin Moderation:** Timing-safe authenticated delete endpoint (`timingSafeEqual`) to prune abusive entries.
+All visitor memory and trust are kept strictly inside your own browser's local storage. Nothing about your session, clicks, or name is ever transmitted to an analytics service or server.
 
 ---
 
-## Run Locally
+## the three toys inside
+
+### lost & found
+Six abandoned relics of the early web (an 800x600 resolution badge, an under construction barrier, a hit counter, a guestbook quill, a dead link, and a 3.5-inch floppy disk). You can adopt them to clean up the screen. Adopting three puts a pink bow on NIB's tail; adopting all six gives NIB a pink binary particle trail.
+
+### pointer playground
+Seven interactive test pads that let you verify every mood and edge case: link gravity, reading text, locked button pout, drag-and-drop, the 8-second yawn and 20-second nap, dizzy scroll reaction, and the amber nightlight toggle.
+
+### nibble box
+A four-step pentatonic music box synthesized with the Web Audio API. Each step is four bits, so an entire melody fits in two bytes (four hex characters). Clicking the step buttons lets you write a loop and copy a shareable link formatted as `#box=XXXX`.
+
+---
+
+## guestbook and live counter
+
+Under the retro shell is a real backend connected to Upstash Redis:
+- A live visitor odometer that increments atomically on each visit.
+- A guestbook wall where visitors can post short notes with an emotion tag.
+- Same-origin checks, IP sliding-window rate limiting, honeypot fields, and obscenity filtering.
+- Automatic demo-mode fallback if Redis environment variables are absent, so the site never crashes in local evaluation.
+
+---
+
+## try this
+
+A few quiet details built into the interface:
+
+1. **Switch tabs for 20 seconds.** The tab title and favicon tell a story while you are away (lonely, then hiding, then asleep). When you return, NIB gives a greeting based on how long you were gone.
+2. **Click empty space four times rapidly.** NIB flinches with squeezed eyes, hops back, and asks "ow. gently?".
+3. **Click gently.** Spacing out your clicks increases NIB's trust meter in the taskbar and unlocks five entries in `nib_diary.txt`.
+4. **Type the Konami code.** Press `Up Up Down Down Left Right Left Right B A` on your keyboard to trigger turbo mode.
+5. **Turn on night mode.** Toggle the lamp button in the taskbar. NIB turns into an amber nightlight that illuminates hidden ink drawings.
+6. **Take NIB home.** Open `take_nib_home.exe` to download NIB as a vector SVG, crisp PNG (up to 1024px), or a native `.cur` cursor file for Windows mouse settings.
+7. **Dial up the internet.** Open the Start menu (`nib ▸`) and choose `dial up...` to hear a procedural 56k modem handshake sound generated through Web Audio oscillators.
+8. **Check accessibility.** Append `?fx=0` to the URL to disable all motion, tilts, and canvas effects. Screen readers receive semantic landmarks, alt text, and ARIA live regions throughout.
+
+---
+
+## technical honesty
+
+- **Framework:** Next.js 16.4.2 (App Router), React 19, Turbopack.
+- **Styling:** Vanilla CSS using CSS variables and semantic design tokens. No Tailwind, no CSS-in-JS runtime.
+- **Physics and Graphics:** Hand-written HTML5 Canvas engine (~350 lines in `nibBrain.ts` and ~250 lines in `nibRenderer.ts`). Zero animation libraries.
+- **Audio:** 100% synthesized in the browser using the Web Audio API. There are 0 audio files, 0 MP3s, and 0 external sound samples.
+- **Storage and Privacy:** Visitor visits, adopted artifacts, and trust levels live exclusively in browser `localStorage`. A "forget me" button in the footer wipes everything cleanly.
+- **Utility scripts:** `scripts/make-og.js` is an offline build helper used to generate the static social preview image `public/og.png` via sharp.
+
+---
+
+## run locally
 
 ```bash
 # Clone the repository
@@ -76,15 +93,16 @@ cd nib
 # Install dependencies
 npm install
 
-# Start the dev server
+# Run the development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.  
-*(Optional: copy `.env.example` to `.env.local` to connect your own Upstash database; without it, the app automatically runs in demo mode).*  
-*(Note: `scripts/make-og.js` is a build utility that generated the static `public/og.png` social card via sharp).*
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+To connect your own Upstash Redis instance for the guestbook and counter, copy `.env.example` to `.env.local` and add your REST credentials. If left unset, the backend automatically runs in in-memory demo mode.
 
 ---
 
-## Credits & License
-See [CREDITS.md](CREDITS.md) for full licensing, open font attributions, and stack details.
+## license
+
+MIT. All code, design, audio synthesis, and character artwork are original and open source. See [CREDITS.md](CREDITS.md) for full font licenses and dependency details.

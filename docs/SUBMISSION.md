@@ -45,8 +45,15 @@
    - **Live Guestbook:** Real sticky notes saved directly to Upstash Redis with anti-spam protections.
 4. **Easter Egg:**
    - Click the "Hello, my name is NIB" sticker 4 times rapidly to reveal NIB's secret matrix rain and lullaby.
-5. **Responsive Chaos Mode:**
-   - **Desktop (>=1100px):** 1999 Windows desktop experience.
-   - **Tablet / Console (700-1099px):** Cartridge console bezel with notched project bars.
-   - **Mobile Gadget (<700px):** Handheld LCD green phosphor pocket gadget with thumb-friendly controls.
-   - Kill switch: append `?chaos=0` to restore standard desktop viewport styling anywhere.
+5. **Trust Mechanic & Diary:**
+   - Click gently to build trust (+3) and fill the taskbar bit-lights. Click-spamming causes NIB to flinch with squeezed eyes and lose trust (-6).
+   - Unlocks 5 narrative diary entries in `nib_diary.txt` as trust builds.
+6. **Lonely Tab Story:**
+   - Switch away from the tab: title and favicon evolve over time (lonely -> hiding after 20s -> asleep after 90s). Returning triggers custom greetings based on duration away.
+7. **Take NIB Home:**
+   - Sharp vector SVG, crisp transparent PNGs (up to 1024px rendered directly to canvas), and authentic Windows `.cur` cursor download.
+8. **Responsive Chaos Mode:**
+   - Desktop (>=1100px): 1999 Windows desktop experience.
+   - Tablet / Console (700-1099px): Cartridge console bezel with notched project bars.
+   - Mobile Gadget (<700px): Handheld pocket gadget with thumb-friendly controls.
+   - Kill switch: append `?chaos=0` to restore standard desktop styling, or `?fx=0` to disable motion.
