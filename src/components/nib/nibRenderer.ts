@@ -142,6 +142,20 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
   EYES.forEach((e, i) => {
     ctx.strokeStyle = line;
     ctx.lineWidth = 0.8;
+    if (m === "flinch") {
+      ctx.beginPath();
+      if (i === 0) {
+        ctx.moveTo(e.x - 1.6, e.y - 1.2);
+        ctx.lineTo(e.x + 1.2, e.y);
+        ctx.lineTo(e.x - 1.6, e.y + 1.2);
+      } else {
+        ctx.moveTo(e.x + 1.6, e.y - 1.2);
+        ctx.lineTo(e.x - 1.2, e.y);
+        ctx.lineTo(e.x + 1.6, e.y + 1.2);
+      }
+      ctx.stroke();
+      return;
+    }
     if (m === "asleep" || m === "happy") {
       ctx.beginPath();
       if (m === "happy") {
@@ -214,6 +228,10 @@ export function drawNib(ctx: CanvasRenderingContext2D, b: NibBrain) {
     my = MOUTH.y;
   if (b.fidget === "yawn") {
     ctx.arc(mx, my + 0.4, 1.3, 0, Math.PI * 2);
+  } else if (m === "flinch") {
+    ctx.moveTo(mx - 1.4, my);
+    ctx.quadraticCurveTo(mx - 0.7, my - 0.7, mx, my);
+    ctx.quadraticCurveTo(mx + 0.7, my + 0.7, mx + 1.4, my);
   } else if (m === "happy") {
     ctx.moveTo(mx - 1.4, my - 0.3);
     ctx.quadraticCurveTo(mx, my + 2, mx + 1.4, my - 0.3);

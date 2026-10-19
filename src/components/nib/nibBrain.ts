@@ -1,7 +1,7 @@
 import { makeSpring, stepSpring } from "./spring";
 import { REAR, S } from "./nibShape";
 
-export type Mood = "idle" | "curious" | "read" | "sleepy" | "asleep" | "pout" | "grab" | "happy" | "dizzy";
+export type Mood = "idle" | "curious" | "read" | "sleepy" | "asleep" | "pout" | "grab" | "happy" | "dizzy" | "flinch";
 export type Kind = "none" | "link" | "text" | "disabled" | "drag" | "native";
 export type Rect = { x: number; y: number; w: number; h: number };
 export type TailPoint = { x: number; y: number; px: number; py: number };
@@ -45,6 +45,15 @@ export class NibBrain {
   onMood: ((m: Mood) => void) | null = null;
   onWake: (() => void) | null = null;
   onClick: (() => void) | null = null;
+  trust = 1;
+  private flinchUntil = 0;
+  flinch() {
+    this.flinchUntil = this.now + 1.2;
+    this.hop.v = -120;
+  }
+  get idleFor() {
+    return this.now - this.lastActive;
+  }
 
   get scale() {
     return S * (this.turboUntil > this.now ? 1.4 : 1);
@@ -198,7 +207,8 @@ export class NibBrain {
     const idle = this.now - this.lastActive;
     const clicking = this.clickStart >= 0 && this.now - this.clickStart < 0.7;
     let m: Mood = "idle";
-    if (clicking) m = "happy";
+    if (this.now < this.flinchUntil) m = "flinch";
+    else if (clicking) m = "happy";
     else if (this.kind === "disabled") m = "pout";
     else if (this.now < this.dizzyUntil) m = "dizzy";
     else if (this.down && this.kind === "drag") m = "grab";
@@ -214,7 +224,7 @@ export class NibBrain {
         const pick = (["look", "wag", "yawn"] as const)[Math.floor(Math.random() * 3)];
         this.fidget = pick;
         this.fidgetUntil = this.now + (pick === "yawn" ? 1.4 : pick === "look" ? 1.6 : 0.8);
-        this.nextFidget = this.now + 4 + Math.random() * 5;
+        this.nextFidget = this.now + (this.trust >= 3 ? 2.5 : 4) + Math.random() * 5;
         if (pick === "wag") this.tail.forEach((p, i) => { p.px += i % 2 ? 5 : -5; });
       }
       if (this.fidget !== "none" && (this.now > this.fidgetUntil || m !== "idle")) {
@@ -240,6 +250,9 @@ export class NibBrain {
       const sp = Math.hypot(this.vx, this.vy);
       if (sp > 40) { lx = this.vx / sp; ly = this.vy / sp; }
     }
+    const lookMul = this.trust === 0 ? 0.25 : 1;
+    lx *= lookMul;
+    ly *= lookMul;
     this.eyeX.target = lx; this.eyeY.target = ly;
     stepSpring(this.eyeX, dt); stepSpring(this.eyeY, dt);
 
@@ -259,6 +272,7 @@ export class NibBrain {
       syT *= 1.1;
     }
     switch (m) {
+      case "flinch": sxT = 0.85; syT = 1.1; a += Math.sin(this.now * 50) * 0.05; break;
       case "curious": a += 0.22; sxT = 1.05; syT = 1.05; break;
       case "read": a -= 0.08; syT = 0.94; break;
       case "sleepy": a += 0.3; syT = 0.95; break;

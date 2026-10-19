@@ -4,6 +4,7 @@ import BirthBits from "@/components/nib/BirthBits";
 import NibLayer from "@/components/nib/NibLayer";
 import NightLight from "@/components/nib/NightLight";
 import NibVoice from "@/components/nib/NibVoice";
+import TrustWatcher from "@/components/nib/TrustWatcher";
 import SoundEffects from "@/components/shell/SoundEffects";
 import TabPolish from "@/components/shell/TabPolish";
 import "./globals.css";
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NibLayer />
         <NightLight />
         <NibVoice />
+        <TrustWatcher />
         <SoundEffects />
         <TabPolish />
       </body>

@@ -5,6 +5,7 @@ import { drawNib } from "./nibRenderer";
 import { classify } from "./classify";
 import { nib, nibBus } from "./nibBus";
 import { loadJSON } from "@/lib/storage";
+import { pipsFor, trustValue } from "@/lib/trust";
 
 const toRect = (el: Element) => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
 
@@ -23,6 +24,7 @@ export default function NibLayer() {
     const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
     brain.width = innerWidth; brain.height = innerHeight;
     brain.setMode(fine ? "mouse" : "touch");
+    brain.trust = pipsFor(trustValue());
 
     const updateCosmetics = (count?: number) => {
       const n = typeof count === "number" ? count : loadJSON<string[]>("nib:adopted", []).length;
@@ -32,6 +34,11 @@ export default function NibLayer() {
     updateCosmetics();
     const onAdopted = (e: Event) => updateCosmetics((e as CustomEvent<number>).detail);
     window.addEventListener("nib:adopted", onAdopted);
+
+    const onTrust = (e: Event) => {
+      brain.trust = pipsFor((e as CustomEvent<number>).detail);
+    };
+    window.addEventListener("nib:trust", onTrust);
 
     let hoverEl: Element | null = null;
     let keyboard = false;
@@ -211,6 +218,7 @@ export default function NibLayer() {
       document.removeEventListener("visibilitychange", onVis);
       rm.removeEventListener("change", onRm);
       window.removeEventListener("nib:adopted", onAdopted);
+      window.removeEventListener("nib:trust", onTrust);
       window.removeEventListener("nib:back", onBack);
       root.classList.remove("nib-on");
       nib.brain = null;
