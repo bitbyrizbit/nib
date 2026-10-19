@@ -7,7 +7,7 @@ import { nibSvg, pngBlob, curBlob, download } from "@/lib/takeHome";
 import { pop } from "@/lib/audio";
 
 export default function TakeHome() {
-  const [size, setSize] = useState<64 | 128 | 256>(256);
+  const [size, setSize] = useState<128 | 256 | 512 | 1024>(512);
   const [status, setStatus] = useState<string>("");
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -39,12 +39,12 @@ export default function TakeHome() {
     }
   };
 
-  const onDownloadCur = async () => {
+  const onDownloadCur = () => {
     pop();
     setBusy(true);
     setStatus("generating .cur cursor...");
     try {
-      const blob = await curBlob();
+      const blob = curBlob();
       download(blob, "nib.cur");
       setStatus("downloaded nib.cur (Windows 32x32)");
     } catch {
@@ -90,7 +90,7 @@ export default function TakeHome() {
                     download .png
                   </button>
                   <div className="takehome-sizes" role="group" aria-label="PNG size">
-                    {([64, 128, 256] as const).map((s) => (
+                    {([128, 256, 512, 1024] as const).map((s) => (
                       <button
                         key={s}
                         type="button"

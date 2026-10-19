@@ -1,10 +1,10 @@
-import { BODY } from "@/components/nib/nibShape";
+import { BODY, EYES, EYE_R, MOUTH } from "@/components/nib/nibShape";
 
 export function nibSvg(size = 256): string {
   const pts = BODY.map(([x, y]) => `${x + 1},${y + 1}`).join(" ");
   const ink = "#1c1b18";
   return (
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${Math.round((size * 34) / 24)}" viewBox="0 0 24 34">` +
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${Math.round((size * 34) / 24)}" viewBox="0 0 24 34" shape-rendering="geometricPrecision">` +
     `<polygon points="${pts}" fill="#ffd23f" stroke="${ink}" stroke-width="1.5" stroke-linejoin="round"/>` +
     `<g stroke="${ink}" stroke-width="0.8"><circle cx="5.4" cy="13" r="2.2" fill="#fff"/><circle cx="10.2" cy="14.3" r="2.2" fill="#fff"/></g>` +
     `<circle cx="5.4" cy="13" r="1" fill="${ink}"/><circle cx="10.2" cy="14.3" r="1" fill="${ink}"/>` +
@@ -23,49 +23,70 @@ export function download(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export function renderPixels(w: number, h: number): Promise<ImageData> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(new Blob([nibSvg(h)], { type: "image/svg+xml" }));
-    img.onload = () => {
-      const c = document.createElement("canvas");
-      c.width = w;
-      c.height = h;
-      const ctx = c.getContext("2d");
-      if (!ctx) {
-        URL.revokeObjectURL(url);
-        reject(new Error("canvas context unavailable"));
-        return;
-      }
-      ctx.drawImage(img, 0, 0, Math.round((h * 24) / 34), h);
-      URL.revokeObjectURL(url);
-      resolve(ctx.getImageData(0, 0, w, h));
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("render failed"));
-    };
-    img.src = url;
-  });
+export function paintNib(ctx: CanvasRenderingContext2D, k: number) {
+  ctx.save();
+  ctx.scale(k, k);
+  ctx.translate(1, 1);
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  BODY.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+  ctx.closePath();
+  const g = ctx.createLinearGradient(0, 0, 21, 31);
+  g.addColorStop(0, "#ffe680");
+  g.addColorStop(0.55, "#ffd23f");
+  g.addColorStop(1, "#f2a900");
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = "#1c1b18";
+  ctx.stroke();
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.beginPath();
+  ctx.ellipse(2.2, 7.5, 0.8, 3.4, -0.25, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.lineWidth = 0.8;
+  for (const e of EYES) {
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(e.x, e.y, EYE_R, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#1c1b18";
+    ctx.beginPath();
+    ctx.arc(e.x, e.y, EYE_R * 0.45, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.beginPath();
+  ctx.moveTo(MOUTH.x - 1, MOUTH.y - 0.2);
+  ctx.quadraticCurveTo(MOUTH.x, MOUTH.y + 1.1, MOUTH.x + 1, MOUTH.y - 0.2);
+  ctx.stroke();
+  ctx.restore();
 }
 
-export async function pngBlob(size: number): Promise<Blob> {
-  const h = size;
-  const w = Math.round((size * 24) / 34);
-  const img = await renderPixels(w, h);
+export function renderPixels(w: number, h: number): ImageData {
   const c = document.createElement("canvas");
   c.width = w;
   c.height = h;
-  const ctx = c.getContext("2d");
-  if (!ctx) throw new Error("canvas context unavailable");
-  ctx.putImageData(img, 0, 0);
+  const ctx = c.getContext("2d")!;
+  paintNib(ctx, h / 34);
+  return ctx.getImageData(0, 0, w, h);
+}
+
+export function pngBlob(size: number): Promise<Blob> {
+  const h = size;
+  const w = Math.ceil((size * 24) / 34);
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  paintNib(c.getContext("2d")!, h / 34);
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("png failed"))), "image/png"));
 }
 
-export async function curBlob(): Promise<Blob> {
+export function curBlob(): Blob {
   const w = 32;
   const h = 32;
-  const px = (await renderPixels(w, h)).data;
+  const px = renderPixels(w, h).data;
   const xorSize = w * h * 4;
   const maskRow = Math.ceil(w / 32) * 4;
   const maskSize = maskRow * h;
