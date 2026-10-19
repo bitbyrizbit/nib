@@ -163,21 +163,22 @@ export default function NibLayer() {
         }
       }
     };
-    let hiddenAt = 0;
     const onVis = () => {
       if (document.hidden) {
-        hiddenAt = performance.now();
         cancelAnimationFrame(raf);
       } else {
-        if (hiddenAt && performance.now() - hiddenAt > 10000) {
-          brain.pointerDown();
-          brain.pointerUp();
-          window.dispatchEvent(new Event("nib:back"));
-        }
         last = performance.now();
         raf = requestAnimationFrame(frame);
       }
     };
+    const onBack = (e: Event) => {
+      const away = (e as CustomEvent<number>).detail ?? 0;
+      if (away >= 5) {
+        brain.pointerDown();
+        brain.pointerUp();
+      }
+    };
+    window.addEventListener("nib:back", onBack);
 
     resize();
     raf = requestAnimationFrame(frame);
@@ -210,6 +211,7 @@ export default function NibLayer() {
       document.removeEventListener("visibilitychange", onVis);
       rm.removeEventListener("change", onRm);
       window.removeEventListener("nib:adopted", onAdopted);
+      window.removeEventListener("nib:back", onBack);
       root.classList.remove("nib-on");
       nib.brain = null;
     };

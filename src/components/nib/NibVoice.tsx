@@ -65,8 +65,17 @@ export default function NibVoice() {
       }
     };
 
-    const onBack = () => {
-      say("you're back!", true);
+    const onBack = (e: Event) => {
+      const away = (e as CustomEvent<number>).detail ?? 0;
+      if (away >= 5) {
+        if (away < 20) {
+          say("you're back!", true);
+        } else if (away < 300) {
+          say("i hid. i'm okay.", true);
+        } else {
+          say("i waited. hi.", true);
+        }
+      }
     };
 
     const onTurbo = () => {
